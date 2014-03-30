@@ -30,8 +30,8 @@
             // Declare DOM objects
             print_modal = $('<div id="print-modal"></div>');
             print_controls = $('<div id="print-modal-controls">' + 
-                                    '<img src="print.png" alt="" class="button print"/>' +
-                                    '<img src="close.png" alt="" class="button close"/>').hide();
+                                    '<img src="img/print.png" alt="" class="button print"/>' +
+                                    '<img src="img/close.png" alt="" class="button close"/>').hide();
             var print_frame = $('<iframe id="print-modal-content" scrolling="no" border="0" frameborder="0" name="print-frame" />');
 
             // Raise print preview window from the dead, zooooooombies

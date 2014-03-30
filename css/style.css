@@ -12,11 +12,11 @@ img.button {
 }
 
 img.button:hover {
-    background-image: url(button-glow.png);
+    background-image: url(../img/button-glow.png);
 }
 
 tbody#input_data_body tr td img.button:hover {
-    background-image: url(button-glow-corners.png);
+    background-image: url(../img/button-glow-corners.png);
 }
 
 /* Head */
@@ -36,7 +36,7 @@ table#title_table div.big_blank_puzzle_field {
 table#title_table div.big_value_puzzle_field {
     text-align: center;
     line-height: 50px;
-    background-image: url(field-big.png);
+    background-image: url(../img/field-big.png);
     color: gray;
     font-size: 20pt;
     font-weight: bold;
@@ -89,12 +89,12 @@ div.collapser h3 {
 }
 
 h3.active {
-    background-image: url(disclosure-open.png);
+    background-image: url(../img/disclosure-open.png);
     background-repeat: no-repeat;
 }
 
 h3.inactive {
-    background: url(disclosure-closed.png);
+    background: url(../img/disclosure-closed.png);
     background-repeat: no-repeat;
 }
 

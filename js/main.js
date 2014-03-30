@@ -34,9 +34,9 @@ $(document).ready(function() {
                 <td><textarea rows="3" cols="25" class="input_clue"></textarea></td>\
                 <td>\
                     <div class="input_item_button_box">\
-                        <img src="up.png" alt="" class="button input_move_up_button"/>\
-                        <img src="down.png" alt="" class="button input_move_down_button"/>\
-                        <img src="delete.png" alt="" class="button input_delete_button"/>\
+                        <img src="img/up.png" alt="" class="button input_move_up_button"/>\
+                        <img src="img/down.png" alt="" class="button input_move_down_button"/>\
+                        <img src="img/delete.png" alt="" class="button input_delete_button"/>\
                     </div>\
                 </td>\
             </tr>\
@@ -145,7 +145,7 @@ $(document).ready(function() {
         // Check for empty input data
         if (! words.length || ! clues.length) {
             var msg = 'No input data. Please specify a list of words and clues.'
-                + ' To add a new word clue pair, hit the <img src="add.png" alt="" class="small_button"/> button';
+                + ' To add a new word clue pair, hit the <img src="img/add.png" alt="" class="small_button"/> button';
             error_dialog(msg);
             return;
         }
@@ -364,16 +364,16 @@ function display_puzzle() {
                 
                 if (isNaN(parseInt(word_matrix[iy][ix]))) {
                     classes += ' value_puzzle_field';
-                    img = '<img src="field.png" alt="" class="puzzle_field_background"/>';
+                    img = '<img src="img/field.png" alt="" class="puzzle_field_background"/>';
                 } else {
                     classes += ' clue_puzzle_field';
                     
                     if (! clue_array[parseInt(word_matrix[iy][ix]) - 1].direction){
                         classes += ' horizontal_clue_puzzle_field';
-                        img = '<img src="horizontal-clue.png" alt="" class="puzzle_field_background"/>';
+                        img = '<img src="img/horizontal-clue.png" alt="" class="puzzle_field_background"/>';
                     } else {
                         classes += ' vertical_clue_puzzle_field';
-                        img = '<img src="vertical-clue.png" alt="" class="puzzle_field_background"/>';
+                        img = '<img src="img/vertical-clue.png" alt="" class="puzzle_field_background"/>';
                     }
                 }
             }
@@ -400,10 +400,10 @@ function display_puzzle() {
         var img = '';
         if (! clue_array[i].direction) {
             classes += ' horizontal_clue_puzzle_field';
-            img = '<img src="horizontal-clue.png" alt="" class="puzzle_field_background"/>';
+            img = '<img src="img/horizontal-clue.png" alt="" class="puzzle_field_background"/>';
         } else {
             classes += ' vertical_clue_puzzle_field';
-            img = '<img src="vertical-clue.png" alt="" class="puzzle_field_background"/>';
+            img = '<img src="img/vertical-clue.png" alt="" class="puzzle_field_background"/>';
         }
         
         clue_table += '<tr>\n';
