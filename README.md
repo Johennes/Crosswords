@@ -1,4 +1,4 @@
 Crosswords
 ==========
 
-Crossword generator
+A crossword generator for teachers

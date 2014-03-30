@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css" media="all"/>
+        <link rel="stylesheet" type="text/css" href="style.css" media="print"/>
+        <link rel="stylesheet" type="text/css" href="print.css" media="print"/>
+        <link rel="stylesheet" type="text/css" href="print-preview.css" media="screen"/>
+        <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="jquery.collapse.js"></script>
+        <script type="text/javascript" src="jquery.cookie.js"></script>
+        <script type="text/javascript" src="jquery.print-preview.js"></script>
+        <script type="text/javascript" src="jquery.blockUI.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+    </head>
+    <body>
+        <table id="title_table" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td><div class="big_puzzle_field big_value_puzzle_field">C</div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field">r</div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field">o</div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field">s</div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field">s</div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field">W</div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field">o</div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field">r</div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field">d</div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field">s</div></td>
+                <td><div class="big_puzzle_field big_blank_puzzle_field"></div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field major_version_number"></div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field">.</div></td>
+                <td><div class="big_puzzle_field big_value_puzzle_field minor_version_number"></div></td>
+            </tr>
+        </table>
+        <div id="greeter">
+            Welcome to CrossWords version <span class="major_version_number"></span>.<span class="minor_version_number"></span>.
+            Happy puzzling!
+        </div>
+        <div class="collapser" id="top_collapser">
+            <h3>About</h3>
+            <div id="about_container">
+                <p>
+                    CrossWords lets you generate <i>sparse</i> crossword puzzles out of a given set of words. <i>Sparse</i> means
+                    that the puzzle will not be arranged to completely fill a rectangular region (this would correspond to a
+                    <i>dense</i> crossword puzzle).
+                </p>
+                <p>
+                    To start out, use the <img src="add.png" alt="" class="small_button"/> button to set up a list of words and
+                    associated clues. When you're done hit <img src="generate.png" alt="" class="small_button"/> to start the
+                    crossword generator. Your puzzle will appear within seconds provided that the generator succeeds. Note that
+                    puzzle generation may fail if the specified words don't allow for a proper connection. For instance your
+                    cannot build a crossword out of 'milk', 'sugar' and 'honey' because these words don't have any letters in
+                    common. In such a case the application will notify you and suggest that you change your list of words.
+                </p>
+                <p>
+                    The puzzle generator works through your list of words from top to bottom and tries to connect them. If you're
+                    not satisfied with the way your puzzle looks you can change the order of your input words with the
+                    <img src="up.png" alt="" class="small_button"/> and <img src="down.png" alt="" class="small_button"/> buttons
+                    and afterwards restart the puzzle generator with <img src="generate.png" alt="" class="small_button"/>. This
+                    will possibly but not necessarily yield an alternate puzzle variant.
+                </p>
+                <p>
+                    Individual word clue pairs can be removed with the <img src="delete.png" alt="" class="small_button"/>
+                    button. To clear all of your input data as well as any generated puzzle hit
+                    <img src="clear.png" alt="" class="small_button"/>.
+                </p>
+                <p>
+                    Finally, you can print teacher and student variants of your puzzle with the
+                    <img src="print.png" alt="" class="small_button"/> buttons. Note that you can choose
+                    <i>Print to File</i> in the printing dialog in order to save your puzzle in PDF or PostScript format.
+                </p>
+            </div>
+            <h3>License &amp; Copyright Notice</h3>
+            <div id="license_container">
+                <p>
+                    This piece of software comes with absolutely no warranty. Use it at your own risk. Feel free to modify it and
+                    pass it around as you like but do not sell it without my explicit permission. In case of questions or problems
+                    you may <a href="mailto:jm84official[AT]googlemail.com">contact me</a> at any time.
+                </p>
+                <p>
+                    Note that most of the icons used within this application were taken from the
+                    <a href="http://kde-look.org/content/show.php?content=143890">KFaenza icon theme</a> which is subject to the
+                    <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License (GPL)</a>.
+                </p>
+                <p>
+                    &copy; 2012 Johannes Marbach
+                </p>
+            </div>
+        </div>
+        <table id="main_button_container" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td><img src="add.png" alt="" id="add_word_button" class="button"/></td>
+                <td><span>Add new word</span></td>
+                <td><img src="clear.png" alt="" id="clear_button" class="button"/></td>
+                <td><span>Clear everything</span></td>
+                <td><img src="generate.png" alt="" id="generate_button" class="button"/></td>
+                <td><span>Generate puzzle</span></td>
+            </tr>
+        </table>
+        <div class="collapser" id="bottom_collapser">
+            <h3 id="input_data_collapser">Input Data</h3>
+            <div id="input_data_container">
+                <table>
+                    <thead id="input_data_head">
+                        <tr>
+                            <th>Word</th>
+                            <th>Clue</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="input_data_body">
+                    </tbody>
+                </table>
+            </div>
+            <h3 id="puzzle_collapser">Puzzle</h3>
+            <div id="puzzle"></div>
+            <h3 id="clue_collapser">Clues</h3>
+            <div id="clues"></div>
+            <h3 id="printing_collapser">Printing</h3>
+            <div id="printing_container">
+                <table cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td><img src="print.png" alt="" id="print_teacher" class="button"/></td>
+                        <td><span>Print puzzle &amp; clues (teacher variant)</span></td>
+                        <td><img src="print.png" alt="" id="print_student" class="button"/></td>
+                        <td><span>Print puzzle &amp; clues (student variant)</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="puzzle_print_container"></div>
+        <div id="clue_print_container"></div>
+        <div id="error_dialog">
+            <div>
+                <table cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td><img src="dialog-error.png" alt=""/></td>
+                        <td><p id="error_dialog_message"></p></td>
+                    </tr>
+                </table>
+                <input type="button" id="error_dialog_ok" value="Ok"/>
+            </div>
+        </div>
+    </body>
+</html>
