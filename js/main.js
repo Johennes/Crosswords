@@ -1,13 +1,7 @@
-var major_version_number = 0;
-var minor_version_number = 1;
 var word_matrix = null;
 var clue_array = null;
 
 $(document).ready(function() {
-    // Insert version numbers
-    $('.major_version_number').html(major_version_number);
-    $('.minor_version_number').html(minor_version_number);
-
     // Enable discolsures
     $('div.collapser h3').addClass('inactive');
     $('div.collapser div').hide();

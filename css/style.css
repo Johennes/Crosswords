@@ -25,17 +25,14 @@ table#title_table tr td {
     padding: 1px;
 }
 
-table#title_table div.big_puzzle_field {
-    width: 50px;
-    height: 50px;
-}
-
-table#title_table div.big_value_puzzle_field {
-    text-align: center;
-    line-height: 50px;
-    color: gray;
-    font-size: 20pt;
-    font-weight: bold;
+table#title_table tr td div {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  color: gray;
+  font-size: 20pt;
+  font-weight: bold;
 }
 
 div#greeter {
@@ -132,7 +129,7 @@ tbody#input_data_body tr td img {
 
 /* Puzzle */
 
-.puzzle_field.border, .big_puzzle_field.border {
+.border {
   border: 0.1em solid #333;
   border-radius: 0.1em;
 }
