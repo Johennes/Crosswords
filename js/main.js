@@ -382,8 +382,8 @@ function display_puzzle() {
                 classes += ' filled_puzzle_field';
                 
                 if (isNaN(parseInt(word_matrix[iy][ix]))) {
-                    classes += ' value_puzzle_field';
-                    img = '<img src="img/field.png" alt="" class="puzzle_field_background"/>';
+                    classes += ' value_puzzle_field border';
+                    //img = '<img src="img/field.png" alt="" class="puzzle_field_background"/>';
                 } else {
                     classes += ' clue_puzzle_field';
                     

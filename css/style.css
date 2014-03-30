@@ -30,13 +30,9 @@ table#title_table div.big_puzzle_field {
     height: 50px;
 }
 
-table#title_table div.big_blank_puzzle_field {
-}
-
 table#title_table div.big_value_puzzle_field {
     text-align: center;
     line-height: 50px;
-    background-image: url(../img/field-big.png);
     color: gray;
     font-size: 20pt;
     font-weight: bold;
@@ -135,6 +131,11 @@ tbody#input_data_body tr td img {
 }
 
 /* Puzzle */
+
+.puzzle_field.border, .big_puzzle_field.border {
+  border: 0.1em solid #333;
+  border-radius: 0.1em;
+}
 
 img.puzzle_field_background {
     position: absolute;
