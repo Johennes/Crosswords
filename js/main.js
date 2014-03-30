@@ -9,14 +9,33 @@ $(document).ready(function() {
     $('.minor_version_number').html(minor_version_number);
 
     // Enable discolsures
-    $('div.collapser').collapse(/*{
+    $('div.collapser h3').addClass('inactive');
+    $('div.collapser div').hide();
+    $('div.collapser h3').click(function() {
+      $h3 = $(this);
+      $cont = $(this).next();
+      
+      if ($h3.hasClass('active')) {
+        $h3.removeClass('active');
+        $h3.addClass('inactive');
+        $cont.hide();
+      } else {
+        $h3.removeClass('inactive');
+        $h3.addClass('active');
+        $cont.show();
+      }
+    });
+    //$('div.collapser').collapse(
+    /*{
         show: function() {
             this.animate({
                 opacity: 'toggle',
                 height: 'toggle'
             }, 300);
         }
-    }*/);
+    }*/
+    //);
+    
     $('div.collapser h3').addClass('inactive');
 
     // Handle error dialog dismissing
@@ -470,7 +489,7 @@ function puzzle_words_to_arrays(puzzle_words) {
 
 function dialog_content(icon, message) {
     content = '<table cellspacing=0" cellpadding="0" border="0"><tr>'
-    content += '<td><img src="' + icon + '" alt=""/></td>'
+    content += '<td><img src="img/' + icon + '" alt=""/></td>'
     content += '<td><p>' + message + '</p></td>'
     content += '</tr></table>'
     return content;
