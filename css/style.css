@@ -6,6 +6,7 @@ body {
   color: g#555;
 }
 
+
 /* Head */
 
 table.title {
@@ -16,6 +17,7 @@ table.title {
 .greeter {
   text-align: center;
 }
+
 
 /* About */
 
@@ -28,13 +30,8 @@ div#about_container {
   line-height: 22px;
 }
 
-/* License */
 
-div#license_container {
-  line-height: 22px;
-}
-
-/* Collapser */
+/* Collapsers & collapsibles */
 
 .collapsible {
   display: none;
@@ -68,24 +65,32 @@ div#license_container {
   background-repeat: no-repeat;
 }
 
-/* Main buttons */
 
-table#main_button_container {
-  margin: 3ex 0 3ex 0;
-}
+/* Buttons */
 
-table#main_button_container tr td {
+/*
+ * E62240
+ * F0A11d
+ * 879516
+ * 571942
+ * 096569
+ */
+
+button {
+  margin: 0;
+  padding: 0.5em;
+  
+  border: 0.1em solid #B01D34;
+  border-radius: 0.25em;
+  
+  background: linear-gradient(#E62240,#B01D34);
+  box-shadow: 0 0.1em 0 0 #F35E74 inset;
+  
+  color: #FFF;
   font-weight: bold;
-  font-size: 12pt;
+  text-shadow: 0 0.1em 0.1em #000;
 }
 
-table#main_button_container tr td img {
-  margin-right: 1ex;
-}
-
-table#main_button_container tr td span {
-  margin-right: 4ex;
-}
 
 /* Input data */
 
@@ -103,6 +108,7 @@ tbody#input_data_body tr td {
 tbody#input_data_body tr td img {
   margin-top: -1px;
 }
+
 
 /* Puzzle */
 
@@ -177,6 +183,7 @@ div.vertical_clue_puzzle_field {
   text-align: center;
 }
 
+
 /* Clues */
 
 div#clues {
@@ -191,6 +198,7 @@ div#clues table tr td, div#clue_print_container table tr td {
 
 div#clues table tr td div, div#clue_print_container table tr td div {
 }
+
 
 /* Printing */
 
@@ -214,6 +222,7 @@ div#printing_container table tr td span {
 div#puzzle_print_container, div#clue_print_container {
   display: none;
 }
+
 
 /* Error dialog */
 
