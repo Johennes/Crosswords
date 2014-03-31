@@ -89,23 +89,29 @@
         <i>Print to File</i> in the printing dialog in order to save your puzzle in PDF or PostScript format.
       </p>
     </div>
-    <button name="add">Add Word</button>
-    <button name="generate">Generate Puzzle</button>
-    <button name="clear">Clear Everything</button>
-    <h3 id="input_data_collapser" class="collapser">Input Data</h3>
-    <div id="input_data_container" class="collapsible">
-      <table>
-        <thead id="input_data_head">
-          <tr>
-            <th>Word</th>
-            <th>Clue</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="input_data_body">
-        </tbody>
-      </table>
-    </div>
+    <section>
+      <div class="buttonBox">
+        <button name="add">Add Word</button>
+        <button name="generate">Generate Puzzle</button>
+        <button name="clear">Clear Everything</button>
+      </div>
+    </section>
+    <section>
+      <h3 id="input_data_collapser" class="collapser">Input Data</h3>
+      <div id="input_data_container" class="collapsible">
+        <table>
+          <thead id="input_data_head">
+            <tr>
+              <th>Word</th>
+              <th>Clue</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="input_data_body">
+          </tbody>
+        </table>
+      </div>
+    </section>
     <h3 id="puzzle_collapser" class="collapser">Puzzle</h3>
     <div id="puzzle" class="collapsible"></div>
     <h3 id="clue_collapser" class="collapser">Clues</h3>

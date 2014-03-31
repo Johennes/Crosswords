@@ -9,9 +9,11 @@
  */
 
 body {
+  padding: 1em;
   font-family: "Roboto", sans-serif;
   font-size: 1em;
-  color: g#555;
+  color: #555;
+  background: #F0A11d;
 }
 
 
@@ -24,6 +26,20 @@ table.title {
 
 .greeter {
   text-align: center;
+}
+
+
+/* Sections */
+
+section {
+  width: 40em;
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 0.5em 0;
+}
+
+section + section{
+  border-top: 0.1em solid #FFF;
 }
 
 
@@ -92,6 +108,10 @@ button {
   text-shadow: 0 0.1em 0.1em #000;
 }
 
+.buttonBox {
+  text-align: center;
+}
+
 
 /* Input data */
 
@@ -133,6 +153,7 @@ table.puzzle tr td {
 .border {
   border: 0.1em solid #555;
   border-radius: 0.1em;
+  background: #FFF;
 }
 
 img.puzzle_field_background {
