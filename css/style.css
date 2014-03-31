@@ -1,24 +1,24 @@
 /* Body */
 
 body {
-    font-size: 17px;
-    color: grey;
+  font-size: 17px;
+  color: grey;
 }
 
 /* Buttons */
 
 img.button {
-    margin-right: 1ex;
+  margin-right: 1ex;
 }
 
 img.button:hover, tbody#input_data_body tr td img.button:hover {
-    box-shadow: 0 0 0.1em 0.1em #1841C5;
+  box-shadow: 0 0 0.1em 0.1em #1841C5;
 }
 
 /* Head */
 
 table#title_table tr td {
-    padding: 1px;
+  padding: 1px;
 }
 
 table#title_table tr td div {
@@ -32,24 +32,24 @@ table#title_table tr td div {
 }
 
 div#greeter {
-    margin: 2ex 0 2ex 0;
+  margin: 2ex 0 2ex 0;
 }
 
 /* About */
 
 img.small_button {
-    width: 18px;
-    height: 18px;
+  width: 18px;
+  height: 18px;
 }
 
 div#about_container {
-    line-height: 22px;
+  line-height: 22px;
 }
 
 /* License */
 
 div#license_container {
-    line-height: 22px;
+  line-height: 22px;
 }
 
 /* Collapser */
@@ -58,52 +58,52 @@ div.collapser {
 }
 
 div.collapser a {
-    text-decoration: none;
-    color: grey;
-    font-size: 17px;
+  text-decoration: none;
+  color: grey;
+  font-size: 17px;
 }
 
 div.collapser a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 div.collapser div a {
-    color: #0079ea;
+  color: #0079ea;
 }
 
 div.collapser h3 {
-    padding-left: 25px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid #CCC;
+  padding-left: 25px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #CCC;
 }
 
 h3.active {
-    background-image: url(../img/disclosure-open.png);
-    background-repeat: no-repeat;
+  background-image: url(../img/disclosure-open.png);
+  background-repeat: no-repeat;
 }
 
 h3.inactive {
-    background: url(../img/disclosure-closed.png);
-    background-repeat: no-repeat;
+  background: url(../img/disclosure-closed.png);
+  background-repeat: no-repeat;
 }
 
 /* Main buttons */
 
 table#main_button_container {
-    margin: 3ex 0 3ex 0;
+  margin: 3ex 0 3ex 0;
 }
 
 table#main_button_container tr td {
-    font-weight: bold;
-    font-size: 12pt;
+  font-weight: bold;
+  font-size: 12pt;
 }
 
 table#main_button_container tr td img {
-    margin-right: 1ex;
+  margin-right: 1ex;
 }
 
 table#main_button_container tr td span {
-    margin-right: 4ex;
+  margin-right: 4ex;
 }
 
 /* Input data */
@@ -112,15 +112,15 @@ div#input_data_container {
 }
 
 thead#input_data_head {
-    display: none;
+  display: none;
 }
 
 tbody#input_data_body tr td {
-    vertical-align: top;
+  vertical-align: top;
 }
 
 tbody#input_data_body tr td img {
-    margin-top: -1px;
+  margin-top: -1px;
 }
 
 /* Puzzle */
@@ -131,19 +131,19 @@ tbody#input_data_body tr td img {
 }
 
 img.puzzle_field_background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
 div#puzzle table tr td, div#puzzle_print_container table tr td {
-    position: relative;
+  position: relative;
 }
 
 div.puzzle_field {
-    width: 37px;
-    height: 37px;
+  width: 37px;
+  height: 37px;
 }
 
 div.empty_puzzle_field {
@@ -153,42 +153,42 @@ div.filled_puzzle_field {
 }
 
 div.value_puzzle_field {
-    text-align: center;
-    line-height: 37px;
-    color: gray;
-    font-size: 16pt;
+  text-align: center;
+  line-height: 37px;
+  color: gray;
+  font-size: 16pt;
 }
 
 div.clue_puzzle_field span {
-    color: #FFFFFF;
-    -webkit-print-color-adjust: exact;
-    font-size: 12pt;
+  color: #FFFFFF;
+  -webkit-print-color-adjust: exact;
+  font-size: 12pt;
 }
 
 div.clue_puzzle_field span {
-    padding: 2px;
-    font-weight: bold;
+  padding: 2px;
+  font-weight: bold;
 }
 
 div.horizontal_clue_puzzle_field {
-    text-align: left;
-    line-height: 37px;
+  text-align: left;
+  line-height: 37px;
 }
 
 div.vertical_clue_puzzle_field {
-    text-align: center;
+  text-align: center;
 }
 
 /* Clues */
 
 div#clues {
-    margin-bottom: -1.5ex;
+  margin-bottom: -1.5ex;
 }
 
 div#clues table tr td, div#clue_print_container table tr td {
-    font-weight: bold;
-    padding-bottom: 1.5ex;
-    position: relative;
+  font-weight: bold;
+  padding-bottom: 1.5ex;
+  position: relative;
 }
 
 div#clues table tr td div, div#clue_print_container table tr td div {
@@ -197,47 +197,47 @@ div#clues table tr td div, div#clue_print_container table tr td div {
 /* Printing */
 
 div#printing_container table {
-    display: none;
+  display: none;
 }
 
 div#printing_container table tr td {
-    font-weight: bold;
-    font-size: 12pt;
+  font-weight: bold;
+  font-size: 12pt;
 }
 
 div#printing_container table tr td img {
-    margin-right: 1ex;
+  margin-right: 1ex;
 }
 
 div#printing_container table tr td span {
-    margin-right: 4ex;
+  margin-right: 4ex;
 }
 
 div#puzzle_print_container, div#clue_print_container {
-    display: none;
+  display: none;
 }
 
 /* Error dialog */
 
 div#error_dialog {
-    display: none;
+  display: none;
 }
 
 div#error_dialog div {
-    margin: 0 auto;
-    width: 300px;
-    border: 3px solid #aaa;
-    background-color: #fff;
+  margin: 0 auto;
+  width: 300px;
+  border: 3px solid #aaa;
+  background-color: #fff;
 }
 
 div#error_dialog table tr td img {
-    margin-right: 1ex;
+  margin-right: 1ex;
 }
 
 div#error_dialog table {
-    margin: 1ex;
+  margin: 1ex;
 }
 
 #error_dialog_ok {
-    margin: 0 1ex 1ex 1ex;
+  margin: 0 1ex 1ex 1ex;
 }

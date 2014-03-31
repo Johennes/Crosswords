@@ -1,20 +1,20 @@
 table#title_table, div#greeter, div#top_collapser, table#main_button_container,
 h3#input_data_collapser, div#input_data_container, div#input_data_container table,
 div#bottom_collapser {
-    display: none;
-    visibility: hidden;
+  display: none;
+  visibility: hidden;
 }
 
 div#puzzle_print_container {
-    display: inline;
-    float: left;
-    padding: 2ex 4ex 2ex 0;
-    margin: 0;
+  display: inline;
+  float: left;
+  padding: 2ex 4ex 2ex 0;
+  margin: 0;
 }
 
 div#clue_print_container {
-    display: inline;
-    float: left;
-    padding: 2ex 0 0 0;
-    margin: 0;
+  display: inline;
+  float: left;
+  padding: 2ex 0 0 0;
+  margin: 0;
 }
