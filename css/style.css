@@ -1,5 +1,13 @@
 /* Body */
 
+/*
+ * E62240
+ * F0A11d
+ * 879516
+ * 571942
+ * 096569
+ */
+
 body {
   font-family: "Roboto", sans-serif;
   font-size: 1em;
@@ -68,14 +76,6 @@ div#about_container {
 
 /* Buttons */
 
-/*
- * E62240
- * F0A11d
- * 879516
- * 571942
- * 096569
- */
-
 button {
   margin: 0;
   padding: 0.5em;
@@ -87,6 +87,7 @@ button {
   box-shadow: 0 0.1em 0 0 #F35E74 inset;
   
   color: #FFF;
+  font-size: 0.8em;
   font-weight: bold;
   text-shadow: 0 0.1em 0.1em #000;
 }
