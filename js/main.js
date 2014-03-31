@@ -25,7 +25,7 @@
     });
     
     // Connect add word button
-    $('#add_word_button').click(function() {
+    $('button[name=add]').click(function() {
       // Append input fields
       $('#input_data_body').append('\
         <tr>\
@@ -33,9 +33,9 @@
           <td><textarea rows="3" cols="25" class="input_clue"></textarea></td>\
           <td>\
             <div class="input_item_button_box">\
-              <img src="img/up.png" alt="" class="button input_move_up_button"/>\
-              <img src="img/down.png" alt="" class="button input_move_down_button"/>\
-              <img src="img/delete.png" alt="" class="button input_delete_button"/>\
+              <button name="moveUp">Move Up</button>\
+              <button name="moveDown">Move Down</button>\
+              <button name="deleteWord">Delete</button>\
             </div>\
           </td>\
         </tr>\
@@ -48,21 +48,21 @@
       }
       
       // Connect move up button
-      $('.input_move_up_button:last').click(function() {
+      $('button[name=moveUp]:last').click(function() {
         var parent = $(this).parent().parent().parent();
         var prev = $(parent).prev();
         if (prev) $(prev).before(parent);
       });
       
       // Connect move down button
-      $('.input_move_down_button:last').click(function() {
+      $('button[name=moveDown]:last').click(function() {
         var parent = $(this).parent().parent().parent();
         var next = $(parent).next();
         if (next) $(next).after(parent);
       });
       
       // Connect delete button
-      $('.input_delete_button:last').click(function() {
+      $('button[name=deleteWord]:last').click(function() {
         var parent = $(this).parent().parent().parent();
         var prev = $(parent).prev();
         var next = $(parent).next();
@@ -79,7 +79,7 @@
     });
     
     // Connect clear button
-    $('#clear_button').click(function() {
+    $('button[name=clear]').click(function() {
       if ($('#input_data_collapser').hasClass('active')) {
         $('#input_data_collapser').click();
       }
@@ -97,7 +97,7 @@
     });
     
     // Connect generate button
-    $('#generate_button').click(function() {
+    $('button[name=generate]').click(function() {
       // Clear puzzle & clues
       if ($('#puzzle_collapser').hasClass('active')) $('#puzzle_collapser').click();
       $('#puzzle').empty();
@@ -176,11 +176,11 @@
     });
     
     // Connect print buttons
-    $('img#print_teacher').click(function() {
+    $('button[name=printTeacher]').click(function() {
       $('div#puzzle_print_container').html($('div#puzzle').html());
       $('div#clue_print_container').html($('div#clues').html());
     });
-    $('img#print_student').click(function() {
+    $('button[name=printStudent]').click(function() {
       $('div#puzzle_print_container').html($('div#puzzle').html());
       $('div#clue_print_container').html($('div#clues').html());
       $('div#puzzle_print_container table tr td div.value_puzzle_field span').html('');

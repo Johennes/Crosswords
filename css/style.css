@@ -6,16 +6,6 @@ body {
   color: g#555;
 }
 
-/* Buttons */
-
-img.button {
-  margin-right: 1ex;
-}
-
-img.button:hover, tbody#input_data_body tr td img.button:hover {
-  box-shadow: 0 0 0.1em 0.1em #1841C5;
-}
-
 /* Head */
 
 table.title {

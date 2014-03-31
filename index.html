@@ -85,46 +85,33 @@
         <i>Print to File</i> in the printing dialog in order to save your puzzle in PDF or PostScript format.
       </p>
     </div>
-    <table id="main_button_container" cellspacing="0" cellpadding="0" border="0">
-    <tr>
-      <td><img src="img/add.png" alt="" id="add_word_button" class="button"/></td>
-      <td><span>Add new word</span></td>
-      <td><img src="img/clear.png" alt="" id="clear_button" class="button"/></td>
-      <td><span>Clear everything</span></td>
-      <td><img src="img/generate.png" alt="" id="generate_button" class="button"/></td>
-      <td><span>Generate puzzle</span></td>
-    </tr>
-  </table>
-  <h3 id="input_data_collapser" class="collapser">Input Data</h3>
-  <div id="input_data_container" class="collapsible">
-    <table>
-      <thead id="input_data_head">
-        <tr>
-          <th>Word</th>
-          <th>Clue</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="input_data_body">
-      </tbody>
-    </table>
-  </div>
-  <h3 id="puzzle_collapser" class="collapser">Puzzle</h3>
-  <div id="puzzle" class="collapsible"></div>
-  <h3 id="clue_collapser" class="collapser">Clues</h3>
-  <div id="clues" class="collapsible"></div>
-  <h3 id="printing_collapser" class="collapser">Printing</h3>
-  <div id="printing_container" class="collapsible">
-    <table cellspacing="0" cellpadding="0" border="0">
-      <tr>
-        <td><img src="img/print.png" alt="" id="print_teacher" class="button"/></td>
-        <td><span>Print puzzle &amp; clues (teacher variant)</span></td>
-        <td><img src="img/print.png" alt="" id="print_student" class="button"/></td>
-        <td><span>Print puzzle &amp; clues (student variant)</span></td>
-      </tr>
-    </table>
-  </div>
-  <div id="puzzle_print_container"></div>
+    <button name="add">Add Word</button>
+    <button name="generate">Generate Puzzle</button>
+    <button name="clear">Clear Everything</button>
+    <h3 id="input_data_collapser" class="collapser">Input Data</h3>
+    <div id="input_data_container" class="collapsible">
+      <table>
+        <thead id="input_data_head">
+          <tr>
+            <th>Word</th>
+            <th>Clue</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="input_data_body">
+        </tbody>
+      </table>
+    </div>
+    <h3 id="puzzle_collapser" class="collapser">Puzzle</h3>
+    <div id="puzzle" class="collapsible"></div>
+    <h3 id="clue_collapser" class="collapser">Clues</h3>
+    <div id="clues" class="collapsible"></div>
+    <h3 id="printing_collapser" class="collapser">Printing</h3>
+    <div id="printing_container" class="collapsible">
+      <button name="printTeacher">Print (Teacher Variant)</button>
+      <button name="printStudent">Print (Student Variant)</button>
+    </div>
+    <div id="puzzle_print_container"></div>
     <div id="clue_print_container"></div>
     <div id="error_dialog">
       <div>
