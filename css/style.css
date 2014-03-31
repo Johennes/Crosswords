@@ -1,8 +1,9 @@
 /* Body */
 
 body {
-  font-size: 17px;
-  color: grey;
+  font-family: "Roboto", sans-serif;
+  font-size: 1em;
+  color: g#555;
 }
 
 /* Buttons */
@@ -17,22 +18,13 @@ img.button:hover, tbody#input_data_body tr td img.button:hover {
 
 /* Head */
 
-table#title_table tr td {
-  padding: 1px;
+table.title {
+  font-size: 2em;
+  margin: 0.25em auto;
 }
 
-table#title_table tr td div {
-  width: 50px;
-  height: 50px;
+.greeter {
   text-align: center;
-  line-height: 50px;
-  color: gray;
-  font-size: 20pt;
-  font-weight: bold;
-}
-
-div#greeter {
-  margin: 2ex 0 2ex 0;
 }
 
 /* About */
@@ -124,8 +116,25 @@ tbody#input_data_body tr td img {
 
 /* Puzzle */
 
+table.puzzle {
+  border-collapse: separate;
+  border-spacing: 0.1em;
+}
+
+table.puzzle tr td {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  
+  width: 1.5em;
+  height: 1.5em;
+  
+  font-size: 1em;
+  font-weight: bold;
+}
+
 .border {
-  border: 0.1em solid #333;
+  border: 0.1em solid #555;
   border-radius: 0.1em;
 }
 
