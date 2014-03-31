@@ -5,24 +5,18 @@
 
   $(document).ready(function() {
     // Enable discolsures
-    $('div.collapser h3').addClass('inactive');
-    $('div.collapser div').hide();
-    $('div.collapser h3').click(function() {
+    $('.collapser').click(function() {
       $h3 = $(this);
       $cont = $(this).next();
       
       if ($h3.hasClass('active')) {
         $h3.removeClass('active');
-        $h3.addClass('inactive');
         $cont.hide();
       } else {
-        $h3.removeClass('inactive');
         $h3.addClass('active');
         $cont.show();
       }
     });
-    
-    $('div.collapser h3').addClass('inactive');
     
     // Handle error dialog dismissing
     $('#error_dialog_ok').click(function() {
@@ -48,7 +42,7 @@
       ');
       
       // Expand input data
-      if ($('#input_data_collapser').hasClass('inactive')) {
+      if (! $('#input_data_collapser').hasClass('active')) {
         $('thead#input_data_head').show();
         $('#input_data_collapser').click();
       }
@@ -173,12 +167,12 @@
       
       // Display puzzle & clues
       display_puzzle(puzzle_words);
-      if ($('#puzzle_collapser').hasClass('inactive')) $('#puzzle_collapser').click();
-      if ($('#clue_collapser').hasClass('inactive')) $('#clue_collapser').click();
+      if (! $('#puzzle_collapser').hasClass('active')) $('#puzzle_collapser').click();
+      if (! $('#clue_collapser').hasClass('active')) $('#clue_collapser').click();
       
       // Show printing options
       $('div#printing_container table').show();
-      if ($('#printing_collapser').hasClass('inactive')) $('#printing_collapser').click();
+      if (! $('#printing_collapser').hasClass('active')) $('#printing_collapser').click();
     });
     
     // Connect print buttons

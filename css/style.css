@@ -54,36 +54,35 @@ div#license_container {
 
 /* Collapser */
 
-div.collapser {
+.collapsible {
+  display: none;
 }
 
-div.collapser a {
+.collapsible a {
   text-decoration: none;
   color: grey;
   font-size: 17px;
 }
 
-div.collapser a:hover {
+.collapsible a:hover {
   text-decoration: underline;
 }
 
-div.collapser div a {
+.collapsible a {
   color: #0079ea;
 }
 
-div.collapser h3 {
+.collapser {
   padding-left: 25px;
   padding-bottom: 4px;
   border-bottom: 1px solid #CCC;
-}
-
-h3.active {
-  background-image: url(../img/disclosure-open.png);
+  
+  background: url(../img/disclosure-closed.png);
   background-repeat: no-repeat;
 }
 
-h3.inactive {
-  background: url(../img/disclosure-closed.png);
+.collapser.active {
+  background-image: url(../img/disclosure-open.png);
   background-repeat: no-repeat;
 }
 
