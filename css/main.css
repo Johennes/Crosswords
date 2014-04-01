@@ -1,3 +1,18 @@
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.clear-fix:before, .clear-fix:after {
+  content: " ";
+  display: table;
+}
+
+.clear-fix:after {
+  clear: both;
+}
+
 /* Body */
 
 /*
@@ -127,7 +142,6 @@ ul.inputData {
 
 .inputColumn {
   float: left;
-  box-sizing: border-box;
   width: 50%;
   padding: 0.25em;
 }
@@ -139,12 +153,7 @@ label.inputLabel {
 }
 
 .input {
-  box-sizing: border-box;
   width: 100%;
-}
-
-#input_data_container {
-  clear: both;
 }
 
 thead#input_data_head {
