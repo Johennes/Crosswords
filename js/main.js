@@ -92,8 +92,8 @@
       if ($('#clue_collapser').hasClass('active')) $('#clue_collapser').click();
       $('#clues').empty();
       
-      if ($('#printing_collapser').hasClass('active')) $('#printing_collapser').click();
-      $('div#printing_container table').hide();
+      $('button[name=printTeacher]').attr('disabled', 'disabled');
+      $('button[name=printStudent]').attr('disabled', 'disabled');
     });
     
     // Connect generate button
@@ -105,8 +105,8 @@
       $('#clues').empty();
       
       // Hide printin options
-      if ($('#printing_collapser').hasClass('active')) $('#printing_collapser').click();
-      $('div#printing_container table').hide();
+      $('button[name=printTeacher]').attr('disabled', 'disabled');
+      $('button[name=printStudent]').attr('disabled', 'disabled');
       
       // Read input data
       var items = $('#input_data_body').children();
@@ -171,8 +171,8 @@
       if (! $('#clue_collapser').hasClass('active')) $('#clue_collapser').click();
       
       // Show printing options
-      $('div#printing_container table').show();
-      if (! $('#printing_collapser').hasClass('active')) $('#printing_collapser').click();
+      $('button[name=printTeacher]').removeAttr('disabled');
+      $('button[name=printStudent]').removeAttr('disabled');
     });
     
     // Connect print buttons

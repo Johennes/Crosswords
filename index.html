@@ -3,8 +3,8 @@
   <head>
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto">
-    <link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="css/style.css" media="print"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css" media="print"/>
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print"/>
     <link rel="stylesheet" type="text/css" href="css/print-preview.css" media="screen"/>
     <!--[if lt IE 9]>
@@ -56,39 +56,41 @@
       </table>
       <div class="greeter">Happy puzzling!</div>
     </head>
-    <h3 class="collapser">About</h3>
-    <div id="about_container" class="collapsible">
-      <p>
-        CrossWords lets you generate <i>sparse</i> crossword puzzles out of a given set of words. <i>Sparse</i> means
-        that the puzzle will not be arranged to completely fill a rectangular region (this would correspond to a
-        <i>dense</i> crossword puzzle).
-      </p>
-      <p>
-        To start out, use the <img src="img/add.png" alt="" class="small_button"/> button to set up a list of words and
-        associated clues. When you're done hit <img src="img/generate.png" alt="" class="small_button"/> to start the
-        crossword generator. Your puzzle will appear within seconds provided that the generator succeeds. Note that
-        puzzle generation may fail if the specified words don't allow for a proper connection. For instance your
-        cannot build a crossword out of 'milk', 'sugar' and 'honey' because these words don't have any letters in
-        common. In such a case the application will notify you and suggest that you change your list of words.
-      </p>
-      <p>
-        The puzzle generator works through your list of words from top to bottom and tries to connect them. If you're
-        not satisfied with the way your puzzle looks you can change the order of your input words with the
-        <img src="img/up.png" alt="" class="small_button"/> and <img src="img/down.png" alt="" class="small_button"/> buttons
-        and afterwards restart the puzzle generator with <img src="img/generate.png" alt="" class="small_button"/>. This
-        will possibly but not necessarily yield an alternate puzzle variant.
-      </p>
-      <p>
-        Individual word clue pairs can be removed with the <img src="img/delete.png" alt="" class="small_button"/>
-        button. To clear all of your input data as well as any generated puzzle hit
-        <img src="img/clear.png" alt="" class="small_button"/>.
-      </p>
-      <p>
-        Finally, you can print teacher and student variants of your puzzle with the
-        <img src="img/print.png" alt="" class="small_button"/> buttons. Note that you can choose
-        <i>Print to File</i> in the printing dialog in order to save your puzzle in PDF or PostScript format.
-      </p>
-    </div>
+    <section>
+      <h3 class="collapser">About</h3>
+      <div id="about_container" class="collapsible">
+        <p>
+          CrossWords lets you generate <i>sparse</i> crossword puzzles out of a given set of words. <i>Sparse</i> means
+          that the puzzle will not be arranged to completely fill a rectangular region (this would correspond to a
+          <i>dense</i> crossword puzzle).
+        </p>
+        <p>
+          To start out, use the <img src="img/add.png" alt="" class="small_button"/> button to set up a list of words and
+          associated clues. When you're done hit <img src="img/generate.png" alt="" class="small_button"/> to start the
+          crossword generator. Your puzzle will appear within seconds provided that the generator succeeds. Note that
+          puzzle generation may fail if the specified words don't allow for a proper connection. For instance your
+          cannot build a crossword out of 'milk', 'sugar' and 'honey' because these words don't have any letters in
+          common. In such a case the application will notify you and suggest that you change your list of words.
+        </p>
+        <p>
+          The puzzle generator works through your list of words from top to bottom and tries to connect them. If you're
+          not satisfied with the way your puzzle looks you can change the order of your input words with the
+          <img src="img/up.png" alt="" class="small_button"/> and <img src="img/down.png" alt="" class="small_button"/> buttons
+          and afterwards restart the puzzle generator with <img src="img/generate.png" alt="" class="small_button"/>. This
+          will possibly but not necessarily yield an alternate puzzle variant.
+        </p>
+        <p>
+          Individual word clue pairs can be removed with the <img src="img/delete.png" alt="" class="small_button"/>
+          button. To clear all of your input data as well as any generated puzzle hit
+          <img src="img/clear.png" alt="" class="small_button"/>.
+        </p>
+        <p>
+          Finally, you can print teacher and student variants of your puzzle with the
+          <img src="img/print.png" alt="" class="small_button"/> buttons. Note that you can choose
+          <i>Print to File</i> in the printing dialog in order to save your puzzle in PDF or PostScript format.
+        </p>
+      </div>
+    </section>
     <section>
       <div class="buttonBox">
         <button name="add">Add Word</button>
@@ -112,15 +114,20 @@
         </table>
       </div>
     </section>
-    <h3 id="puzzle_collapser" class="collapser">Puzzle</h3>
-    <div id="puzzle" class="collapsible"></div>
-    <h3 id="clue_collapser" class="collapser">Clues</h3>
-    <div id="clues" class="collapsible"></div>
-    <h3 id="printing_collapser" class="collapser">Printing</h3>
-    <div id="printing_container" class="collapsible">
-      <button name="printTeacher">Print (Teacher Variant)</button>
-      <button name="printStudent">Print (Student Variant)</button>
-    </div>
+    <section>
+      <h3 id="puzzle_collapser" class="collapser">Puzzle</h3>
+      <div id="puzzle" class="collapsible"></div>
+    </section>
+    <section>
+      <h3 id="clue_collapser" class="collapser">Clues</h3>
+      <div id="clues" class="collapsible"></div>
+    </section>
+    <section>
+      <div class="buttonBox">
+        <button name="printTeacher" disabled="disabled">Print (Teacher Variant)</button>
+        <button name="printStudent" disabled="disabled">Print (Student Variant)</button>
+      </div>
+    </section>
     <div id="puzzle_print_container"></div>
     <div id="clue_print_container"></div>
     <div id="error_dialog">
