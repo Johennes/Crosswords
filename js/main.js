@@ -4,7 +4,7 @@
   var clue_array = null;
 
   $(document).ready(function() {
-    // Enable discolsures
+    // Enable disclosures
     $('.collapser').click(function() {
       $h3 = $(this);
       $cont = $(this).next();
@@ -17,6 +17,9 @@
         $cont.show();
       }
     });
+    
+    // Draggables
+    $('ul.inputData li').draggable();
     
     // Handle error dialog dismissing
     $('#error_dialog_ok').click(function() {
@@ -74,8 +77,6 @@
           $('thead#input_data_head').hide();
         }
       });
-      
-      $('#input_data_container').show();
     });
     
     // Connect clear button

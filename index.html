@@ -100,8 +100,20 @@
       </div>
     </section>
     <section>
-      <h3 id="input_data_collapser" class="collapser">Input Data</h3>
-      <div id="input_data_container" class="collapsible">
+      <h3>Input Data</h3>
+      <ul class="inputData">
+        <li>
+          <div class="inputColumn">
+            <label class="inputLabel" for="word">Word</label>
+            <input class="input" name="word" type="text">
+          </div>
+          <div class="inputColumn">
+            <label class="inputLabel" for="clue">Clue</label>
+            <textarea class="input" name="clue" rows="3"></textarea>
+          </div>
+        </li>
+      </ul>
+      <div id="input_data_container">
         <table>
           <thead id="input_data_head">
             <tr>
