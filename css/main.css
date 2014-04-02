@@ -138,6 +138,12 @@ ul.inputData {
   margin: 0 auto;
   padding: 0;
   list-style: none;
+  counter-reset: inputData;
+}
+
+ul.inputData li:before {
+  counter-increment: inputData;
+  content: "#" counter(inputData);
 }
 
 ul.inputData .column {
@@ -145,16 +151,18 @@ ul.inputData .column {
   padding: 0.25em;
 }
 
-ul.inputData .column.wide {
-  width: calc(50% - 2em);
+ul.inputData .column.dragHandleWrapper {
+  width: 2em;
+  height: 2em;
 }
 
-ul.inputData .number {
-  width: 2em;
+ul.inputData .column.wide {
+  width: calc(50% - 1em);
 }
 
 ul.inputData .dragHandle {
-  width: 2em;
+  width: 100%;
+  height: 100%;
   background: #096569;
 }
 

@@ -103,8 +103,22 @@
       <h3>Input Data</h3>
       <ul class="inputData">
         <li class="clear-fix">
-          <div class="column number">#1</div>
-          <div class="column dragHandle"></div>
+          <div class="column dragHandleWrapper">
+            <div class="dragHandle"></div>
+          </div>
+          <div class="column wide">
+            <label for="word">Word</label>
+            <input name="word" type="text">
+          </div>
+          <div class="column wide">
+            <label for="clue">Clue</label>
+            <textarea name="clue" rows="3"></textarea>
+          </div>
+        </li>
+        <li class="clear-fix">
+          <div class="column dragHandleWrapper">
+            <div class="dragHandle"></div>
+          </div>
           <div class="column wide">
             <label for="word">Word</label>
             <input name="word" type="text">
