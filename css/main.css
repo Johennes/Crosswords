@@ -140,19 +140,31 @@ ul.inputData {
   list-style: none;
 }
 
-.inputColumn {
+ul.inputData .column {
   float: left;
-  width: 50%;
   padding: 0.25em;
 }
 
-label.inputLabel {
+ul.inputData .column.wide {
+  width: calc(50% - 2em);
+}
+
+ul.inputData .number {
+  width: 2em;
+}
+
+ul.inputData .dragHandle {
+  width: 2em;
+  background: #096569;
+}
+
+ul.inputData label {
   display: block;
   font-size: 0.8em;
   width: 100%;
 }
 
-.inputField {
+ul.inputData input, ul.inputData textarea {
   width: 100%;
   border: 0.1em solid #096569;
   border-radius: 0.2em;
