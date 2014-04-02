@@ -50,11 +50,18 @@ section {
   width: 40em;
   max-width: 90%;
   margin: 0 auto;
-  padding: 0.5em 0;
 }
 
-section + section{
-  border-top: 0.1em solid #FFF;
+section + section:before {
+  content: "";
+  display: block;
+  width: 100%;
+  margin: 1em 0;
+  border-top: 0.1em solid #A16500;
+  box-shadow: 0 0 0em 0.1em #F5B74E;
+}
+
+div.test {
 }
 
 
