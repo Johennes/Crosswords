@@ -152,8 +152,10 @@ label.inputLabel {
   width: 100%;
 }
 
-.input {
+.inputField {
   width: 100%;
+  border: 0.1em solid #096569;
+  border-radius: 0.2em;
 }
 
 thead#input_data_head {
