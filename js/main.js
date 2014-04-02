@@ -29,64 +29,13 @@
     
     // Connect add word button
     $('button[name=add]').click(function() {
-      // Append input fields
-      $('#input_data_body').append('\
-        <tr>\
-          <td><textarea rows="1" cols="25" class="input_word"></textarea></td>\
-          <td><textarea rows="3" cols="25" class="input_clue"></textarea></td>\
-          <td>\
-            <div class="input_item_button_box">\
-              <button name="moveUp">Move Up</button>\
-              <button name="moveDown">Move Down</button>\
-              <button name="deleteWord">Delete</button>\
-            </div>\
-          </td>\
-        </tr>\
-      ');
-      
-      // Expand input data
-      if (! $('#input_data_collapser').hasClass('active')) {
-        $('thead#input_data_head').show();
-        $('#input_data_collapser').click();
-      }
-      
-      // Connect move up button
-      $('button[name=moveUp]:last').click(function() {
-        var parent = $(this).parent().parent().parent();
-        var prev = $(parent).prev();
-        if (prev) $(prev).before(parent);
-      });
-      
-      // Connect move down button
-      $('button[name=moveDown]:last').click(function() {
-        var parent = $(this).parent().parent().parent();
-        var next = $(parent).next();
-        if (next) $(next).after(parent);
-      });
-      
-      // Connect delete button
-      $('button[name=deleteWord]:last').click(function() {
-        var parent = $(this).parent().parent().parent();
-        var prev = $(parent).prev();
-        var next = $(parent).next();
-        
-        $(parent).remove();
-        
-        if (! prev.length && ! next.length) {
-          $('#input_data_collapser').click();
-          $('thead#input_data_head').hide();
-        }
-      });
+      var $li = $('ul.inputData li:last-child').clone();
+      $li.find('input, textarea').val('');
+      $('ul.inputData').append($li);
     });
     
     // Connect clear button
     $('button[name=clear]').click(function() {
-      if ($('#input_data_collapser').hasClass('active')) {
-        $('#input_data_collapser').click();
-      }
-      $('thead#input_data_head').hide();
-      $('tbody#input_data_body').empty();
-      
       if ($('#puzzle_collapser').hasClass('active')) $('#puzzle_collapser').click();
       $('#puzzle').empty();
       
@@ -110,12 +59,12 @@
       $('button[name=printStudent]').attr('disabled', 'disabled');
       
       // Read input data
-      var items = $('#input_data_body').children();
+      var items = $('ul.inputData li');
       var words = new Array();
       var clues = new Array();
       for (var i = 0; i < items.length; ++i) {
-        var word = trim($(items[i]).children().children('textarea.input_word').val());
-        var clue = trim($(items[i]).children().children('textarea.input_clue').val());
+        var word = trim($(items[i]).find('input[name=word]').val());
+        var clue = trim($(items[i]).find('textarea[name=clue]').val());
 
         if (/\d/.test(word)) {
           var msg = 'Words are not allowed to contain numbers. The puzzle generation algorithm uses numbers'
