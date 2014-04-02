@@ -145,36 +145,37 @@ ul.inputData li {
   position: relative;
 }
 
+ul.inputData li {
+  margin-top: 0.25em;
+}
+
 ul.inputData li:before {
   counter-increment: inputData;
   content: "#" counter(inputData);
-  margin-left: -2em;
+  
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  
+  display: block;
+  width: 2em;
+  
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  
+  background: #096569;
+  color: #FFF;
 }
 
 ul.inputData .column {
   float: left;
   padding: 0.25em;
-}
-
-ul.inputData .column.dragHandleWrapper {
-  width: 2em;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-}
-
-ul.inputData .column.wide {
   width: calc(50% - 1em);
 }
 
-ul.inputData .column.wide.shift {
+ul.inputData .column.shift {
   margin-left: 2em;
-}
-
-ul.inputData .dragHandle {
-  width: 100%;
-  height: 100%;
-  background: #096569;
 }
 
 ul.inputData label {

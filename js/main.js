@@ -19,7 +19,7 @@
     });
     
     // Draggables
-    $('ul.inputData li').draggable({ handle: '.dragHandle' });
+    $('ul.inputData li').draggable();
     
     // Handle error dialog dismissing
     $('#error_dialog_ok').click(function() {
