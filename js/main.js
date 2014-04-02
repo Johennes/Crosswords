@@ -18,8 +18,8 @@
       }
     });
     
-    // Draggables
-    $('ul.inputData li').draggable({ handle: '.dragHandle' });
+    // Input data sorting
+    $('ul.inputData').sortable({ handle: '.dragHandle' });
     
     // Handle error dialog dismissing
     $('#error_dialog_ok').click(function() {
