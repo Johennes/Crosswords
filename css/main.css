@@ -141,9 +141,14 @@ ul.inputData {
   counter-reset: inputData;
 }
 
+ul.inputData li {
+  position: relative;
+}
+
 ul.inputData li:before {
   counter-increment: inputData;
   content: "#" counter(inputData);
+  margin-left: -2em;
 }
 
 ul.inputData .column {
@@ -153,11 +158,17 @@ ul.inputData .column {
 
 ul.inputData .column.dragHandleWrapper {
   width: 2em;
-  height: 2em;
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }
 
 ul.inputData .column.wide {
   width: calc(50% - 1em);
+}
+
+ul.inputData .column.wide.shift {
+  margin-left: 2em;
 }
 
 ul.inputData .dragHandle {
