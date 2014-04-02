@@ -145,37 +145,62 @@ ul.inputData li {
   position: relative;
 }
 
-ul.inputData li {
+ul.inputData li + li {
   margin-top: 0.25em;
 }
 
-ul.inputData li:before {
-  counter-increment: inputData;
-  content: "#" counter(inputData);
-  
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-  
-  display: block;
-  width: 2em;
-  
+ul.inputData .dragHandleWrapper {
   position: absolute;
   top: 0;
   bottom: 0;
   
-  background: #096569;
+  width: 2.5em;
+  padding: 0.25em;
+  
   color: #FFF;
+}
+
+ul.inputData .dragHandle {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.2em;
+  background: #096569;
+  text-align: center;
+}
+
+ul.inputData .dragHandle:hover {
+  cursor: pointer;
+}
+
+ul.inputData span.counter {
+  display: inline-block;
+  
+  height: 1em;
+  line-height: 1em;
+  margin-top: -0.5em;
+  
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+}
+
+ul.inputData span.counter:after {
+  counter-increment: inputData;
+  content: counter(inputData);
+}
+
+ul.inputData .spacer {
+  float: left;
+  width: 2.5em;
+  height: 0.1em;
 }
 
 ul.inputData .column {
   float: left;
   padding: 0.25em;
-  width: calc(50% - 1em);
-}
-
-ul.inputData .column.shift {
-  margin-left: 2em;
+  width: calc(50% - 1.25em);
 }
 
 ul.inputData label {
