@@ -1,443 +1,199 @@
 (function($) {
   
-  var word_matrix = null;
-  var clue_array = null;
+  var crossword = null;
+  var rotated = false;
 
   $(document).ready(function() {
-    // Enable disclosures
-    $('.collapser').click(function() {
-      $h3 = $(this);
-      $cont = $(this).next();
-      
-      if ($h3.hasClass('active')) {
-        $h3.removeClass('active');
-        $cont.hide();
-      } else {
-        $h3.addClass('active');
-        $cont.show();
+    // Enable input data sorting
+    $('ul.inputData').sortable({
+      handle: '.dragHandle',
+      stop: function(event, ui) {
+        $('button[name=generate]').click();
       }
     });
     
-    // Input data sorting
-    $('ul.inputData').sortable({ handle: '.dragHandle' });
+    // Connect click handlers
+    $('ul.tabTitle li').click(tabClickHandler);
+    $('button[name=add]').click(addWordClickHandler);
+    $('button[name=remove]').click(removeWordClickHandler);
+    $('button[name=clear]').click(clearClickHandler);
+    $('button[name=generate]').click(generateClickHandler);
+    $('button[name=next]').click(nextClickHandler);
+    $('button[name=rotate]').click(rotateClickHandler);
+    $('button[name=printTeacher]').click(print4TeacherClickHandler);
+    $('button[name=printStudent]').click(print4StudentClickHandler);
     
-    // Handle error dialog dismissing
-    $('#error_dialog_ok').click(function() {
-      $.unblockUI();
-      return false;
-    });
-    
-    // Connect add word button
-    $('button[name=add]').click(function() {
-      var $li = $('ul.inputData li:last-child').clone();
-      $li.find('input, textarea').val('');
-      $('ul.inputData').append($li);
-    });
-    
-    // Connect clear button
-    $('button[name=clear]').click(function() {
-      if ($('#puzzle_collapser').hasClass('active')) $('#puzzle_collapser').click();
-      $('#puzzle').empty();
-      
-      if ($('#clue_collapser').hasClass('active')) $('#clue_collapser').click();
-      $('#clues').empty();
-      
-      $('button[name=printTeacher]').attr('disabled', 'disabled');
-      $('button[name=printStudent]').attr('disabled', 'disabled');
-    });
-    
-    // Connect generate button
-    $('button[name=generate]').click(function() {
-      // Clear puzzle & clues
-      if ($('#puzzle_collapser').hasClass('active')) $('#puzzle_collapser').click();
-      $('#puzzle').empty();
-      if ($('#clue_collapser').hasClass('active')) $('#clue_collapser').click();
-      $('#clues').empty();
-      
-      // Hide printin options
-      $('button[name=printTeacher]').attr('disabled', 'disabled');
-      $('button[name=printStudent]').attr('disabled', 'disabled');
-      
-      // Read input data
-      var items = $('ul.inputData li');
-      var words = new Array();
-      var clues = new Array();
-      for (var i = 0; i < items.length; ++i) {
-        var word = trim($(items[i]).find('input[name=word]').val());
-        var clue = trim($(items[i]).find('textarea[name=clue]').val());
-
-        if (/\d/.test(word)) {
-          var msg = 'Words are not allowed to contain numbers. The puzzle generation algorithm uses numbers'
-                  + ' internally to refer to clue marker fields.';
-          error_dialog(msg);
-          return;
-        }
-        
-        if (/@/.test(word)) {
-          var msg = 'Words are not allowed to contain <i>@</i> signs. The <i>@</i> sign is used internally'
-                  + ' by the puzzle generation algorithm.';
-          error_dialog(msg);
-          return;
-        }
-        
-        if (word.length && clue.length) {
-          words[i] = '@' + word; // Prepend @ as placeholder for clue number
-          clues[i] = clue;
-        } else {
-          var msg = 'Blank input fields are not allowed. Please fill out all the fields in the <i>Input Data</i> section'
-                  + ' or remove any unneeded blank fields.';
-          error_dialog(msg);
-          return;
-        }
-      }
-      
-      // Check for empty input data
-      if (! words.length || ! clues.length) {
-        var msg = 'No input data. Please specify a list of words and clues.'
-                + ' To add a new word clue pair, hit the <img src="img/add.png" alt="" class="small_button"/> button';
-        error_dialog(msg);
-        return;
-      }
-      
-      var puzzle_words = fit(words, clues); // Generate puzzle
-      
-      if (! puzzle_words) {
-        var msg = 'Crossword generation failed. The set of words you specified does not allow for a proper'
-                + ' connection and should be modified. If this happens to you very often it might be a good idea'
-                + ' to start with a small number of words and gradually add more words as you see where they could fit'
-                + ' into the puzzle.';
-        error_dialog(msg, 350);
-        return;
-      }
-      
-      // Generate word matrix & clue array
-      var rv = puzzle_words_to_arrays(puzzle_words);
-      word_matrix = rv[0];
-      clue_array = rv[1];
-      
-      // Display puzzle & clues
-      display_puzzle(puzzle_words);
-      if (! $('#puzzle_collapser').hasClass('active')) $('#puzzle_collapser').click();
-      if (! $('#clue_collapser').hasClass('active')) $('#clue_collapser').click();
-      
-      // Show printing options
-      $('button[name=printTeacher]').removeAttr('disabled');
-      $('button[name=printStudent]').removeAttr('disabled');
-    });
-    
-    // Connect print buttons
-    $('button[name=printTeacher]').click(function() {
-      $('div#puzzle_print_container').html($('div#puzzle').html());
-      $('div#clue_print_container').html($('div#clues').html());
-    });
-    $('button[name=printStudent]').click(function() {
-      $('div#puzzle_print_container').html($('div#puzzle').html());
-      $('div#clue_print_container').html($('div#clues').html());
-      $('div#puzzle_print_container table tr td div.value_puzzle_field span').html('');
-    });
-    $('img#print_teacher, img#print_student').printPreview();
+    $('button[name=generate]').click(); // Trigger puzzle generation
   });
-
-  function PuzzleWord(word, clue, x1, y1, x2, y2) {
-    this.word = word;
-    this.clue = clue;
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
-    this.y2 = y2;
-  }
-
-  function Clue(clue, x, y, direction) {
-    this.x = x;
-    this.y = y;
-    this.clue = clue;
-    this.direction = direction;
-  }
-
-  function fit(words, clues) {
-    return do_fit(words, clues, []);
-  }
-
-  function do_fit(words, clues, puzzle_words) {
-    if (! words.length) { // We're finished
-      return puzzle_words;
+  
+  
+  function tabClickHandler(event) {
+    if ($(this).hasClass('active')) {
+      return;
     }
     
-    // Try to match one of the remaining words
-    for (var iw = 0; iw < words.length; ++iw) {
-      var ix_max = max_x(puzzle_words) + ((! puzzle_words.length) ? 8 : 0);
-      var iy_max = max_y(puzzle_words) + ((! puzzle_words.length) ? 8 : 0);
-      
-      for (var ix = 0; ix <= ix_max; ++ix) {
-        for (var iy = 0; iy <= iy_max; ++iy) {
-          for (var d = 0; d <= 1; ++d) {
-            // Try to match current word
-            var puzzle_word = null;
-            var ix2;
-            var iy2;
-            
-            if (! d) { // Horizontal direction
-              ix2 = ix + words[iw].length - 1;
-              iy2 = iy;
-            } else { // Vertical direction
-              ix2 = ix;
-              iy2 = iy + words[iw].length - 1;
-            }
-            
-            if (fits(words[iw], ix, iy, ix2, iy2, puzzle_words)) {
-              puzzle_word = new PuzzleWord(words[iw], clues[iw], ix, iy, ix2, iy2);
-            }
-            
-            if (puzzle_word) { // Fitting of current word succeeded
-              puzzle_words.push(puzzle_word); // Extend puzzle words array
-              
-              // Shrink word & clue array. Note: The string cast is necessary since splice
-              // seems to return a general type object.
-              var word = String(words.splice(iw, 1));
-              var clue = String(clues.splice(iw, 1));
-              
-              // Try to fit the remaining words
-              rv = do_fit(words, clues, puzzle_words);
-              
-              if (rv) return puzzle_words; // Fitting of remaining words succeeded
-              else { // Fitting of remaining words failed => Undo changes
-                puzzle_words.pop();
-                words.splice(iw, 0, word);
-                clues.splice(iw, 0, clue);
-              }
-            }
-          }
-        }
-      }
-    }
+    $('ul.tabTitle li.active').removeClass('active');
+    $(this).addClass('active');
     
-    return null; // Fitting failed ultimately
+    $('div.tabBody div').hide();
+    var index = $('ul.tabTitle li').index($(this));
+    $($('div.tabBody div').get(index)).show();
   }
-
-  function max_x(puzzle_words) {
-    max = 0;
-    for (var i = 0; i < puzzle_words.length; ++i) {
-      if (puzzle_words[i].x2 > max) max = puzzle_words[i].x2;
+  
+  
+  function addWordClickHandler(event) {
+    if ($('ul.inputData li').length === 1) {
+      $('button[name=remove]').removeAttr('disabled');
     }
-    return max;
+    
+    var $li = $('ul.inputData li:last-child').clone();
+    $li.find('input, textarea').val('');
+    $li.find('button[name=remove]').click(removeWordClickHandler);
+    $('ul.inputData').append($li);
   }
-
-  function max_y(puzzle_words) {
-    max = 0;
-    for (var i = 0; i < puzzle_words.length; ++i) {
-      if (puzzle_words[i].y2 > max) max = puzzle_words[i].y2;
+  
+  
+  function removeWordClickHandler(event) {
+    var $parent = $(this).parent();
+    
+    while (! $parent.parent().hasClass('inputData')) {
+      $parent = $parent.parent();
     }
-    return max;
+    
+    $parent.remove();
+    
+    if ($('ul.inputData li').length === 1) {
+      $('button[name=remove]').attr('disabled', 'disabled');
+    }
   }
-
-  function fits(word, x1, y1, x2, y2, puzzle_words) {
-    if (! puzzle_words.length) return true;
+  
+  
+  function clearClickHandler(event) {
+    clearPuzzle();
     
-    var intersected = false;
+    $('ul.inputData input[name=word]').val('');
+    $('ul.inputData textarea[name=clue]').empty();
     
-    for (var i = 0; i < puzzle_words.length; ++i) {
-      // Both words in x-direction
-      if (y1 == y2 && puzzle_words[i].y1 == puzzle_words[i].y2) {
-        if (Math.abs(y1 - puzzle_words[i].y1) > 1) continue;
-        if (x1 >= puzzle_words[i].x1 - 1 && x1 <= puzzle_words[i].x2 + 1) return false;
-        if (puzzle_words[i].x1 >= x1 - 1 && puzzle_words[i].x1 <= x2 + 1) return false;
-        if (x2 >= puzzle_words[i].x1 - 1 && x2 <= puzzle_words[i].x2 + 1) return false;
-        if (puzzle_words[i].x2 >= x1 - 1 && puzzle_words[i].x2 <= x2 + 1) return false;
-      }
-          
-      // Both words in y-direction
-      if (x1 == x2 && puzzle_words[i].x1 == puzzle_words[i].x2) {
-        if (Math.abs(x1 - puzzle_words[i].x1) > 1) continue;
-        if (y1 >= puzzle_words[i].y1 - 1 && y1 <= puzzle_words[i].y2 + 1) return false;
-        if (puzzle_words[i].y1 >= y1 - 1 && puzzle_words[i].y1 <= y2 + 1) return false;
-        if (y2 >= puzzle_words[i].y1 - 1 && y2 <= puzzle_words[i].y2 + 1) return false;
-        if (puzzle_words[i].y2 >= y1 - 1 && puzzle_words[i].y2 <= y2 + 1) return false;
-      }
-      
-      // Perpendicular words
-      if (x1 == x2) {
-        if (y1 > puzzle_words[i].y1 + 1 || y2 < puzzle_words[i].y1 - 1) continue;
-        if (x1 > puzzle_words[i].x2 + 1 || x1 < puzzle_words[i].x1 - 1) continue;
-        
-        if (y1 == puzzle_words[i].y1 + 1 && x1 >= puzzle_words[i].x1 - 1 && x1 <= puzzle_words[i].x2 + 1) return false;
-        if (y2 == puzzle_words[i].y1 - 1 && x1 >= puzzle_words[i].x1 - 1 && x1 <= puzzle_words[i].x2 + 1) return false;
-        if (x1 == puzzle_words[i].x1 - 1 && puzzle_words[i].y1 >= y1 - 1 && puzzle_words[i].y1 <= y2 + 1) return false;
-        if (x1 == puzzle_words[i].x2 + 1 && puzzle_words[i].y1 >= y1 - 1 && puzzle_words[i].y1 <= y2 + 1) return false;
-        
-        if (word[puzzle_words[i].y1 - y1] == puzzle_words[i].word[x1 - puzzle_words[i].x1]
-            && word[puzzle_words[i].y1 - y1] != '@') intersected = true;
-        else return false;
-      } else { // y1 == y2
-        if (y1 > puzzle_words[i].y2 + 1 || y1 < puzzle_words[i].y1 - 1) continue;
-        if (x1 > puzzle_words[i].x1 + 1 || x2 < puzzle_words[i].x1 - 1) continue;
-        
-        if (x1 == puzzle_words[i].x1 + 1 && y1 >= puzzle_words[i].y1 - 1 && y1 <= puzzle_words[i].y2 + 1) return false;
-        if (x2 == puzzle_words[i].x1 - 1 && y1 >= puzzle_words[i].y1 - 1 && y1 <= puzzle_words[i].y2 + 1) return false;
-        if (y1 == puzzle_words[i].y1 - 1 && puzzle_words[i].x1 >= x1 - 1 && puzzle_words[i].x1 <= x2 + 1) return false;
-        if (y1 == puzzle_words[i].y2 + 1 && puzzle_words[i].x1 >= x1 - 1 && puzzle_words[i].x1 <= x2 + 1) return false;
-        
-        if (word[puzzle_words[i].x1 - x1] == puzzle_words[i].word[y1 - puzzle_words[i].y1]
-            && word[puzzle_words[i].x1 - x1] != '@' && word[puzzle_words[i].x1 - x1] != '-') intersected = true;
-        else return false;
-      }
-    }
-    
-    if (intersected) return true;
-    else return false;
+    $('button[name=next]').attr('disabled', 'disabled');
+    $('button[name=rotate]').attr('disabled', 'disabled');
+    $('button[name=printTeacher]').attr('disabled', 'disabled');
+    $('button[name=printStudent]').attr('disabled', 'disabled');
   }
-
-  function trim(s) {
-    var l=0;
-    var r=s.length -1;
-    
-    while (l < s.length && s[l] == ' ') l++;
-    while(r > l && s[r] == ' ') r-=1;
-    
-    return s.substring(l, r+1);
+  
+  
+  function clearPuzzle() {
+    $('#puzzleWrapper').empty();
+    crossword = null;
+    rotated = false;
   }
+  
+  
+  function generateClickHandler(event) {
+    clearPuzzle();
+    
+    // Disable printing options
+    $('button[name=printTeacher]').attr('disabled', 'disabled');
+    $('button[name=printStudent]').attr('disabled', 'disabled');
+    
+    // Read input data
+    var words = [];
+    var clues = [];
+    $('ul.inputData li').each(function(index, element) {
+      var word = $.trim($(element).find('input[name=word]').val());
+      var clue = $.trim($(element).find('textarea[name=clue]').val());
 
-  function display_puzzle() {
-    // Generate puzzle table
-    var puzzle_table = '<table border="0" cellpadding="0" cellspacing="2px">\n';
-    
-    for (var iy = 0; iy < word_matrix.length; ++iy) {
-      puzzle_table += '<tr>\n'
-      
-      for (var ix = 0; ix < word_matrix[iy].length; ++ix) {
-        // Determine field class
-        var classes = 'puzzle_field';
-        var img = '';
-        if (! word_matrix[iy][ix]) classes += ' empty_puzzle_field';
-        else {
-          classes += ' filled_puzzle_field';
-          
-          if (isNaN(parseInt(word_matrix[iy][ix]))) {
-            classes += ' value_puzzle_field border';
-            //img = '<img src="img/field.png" alt="" class="puzzle_field_background"/>';
-          } else {
-            classes += ' clue_puzzle_field';
-            
-            if (! clue_array[parseInt(word_matrix[iy][ix]) - 1].direction){
-              classes += ' horizontal_clue_puzzle_field';
-              img = '<img src="img/horizontal-clue.png" alt="" class="puzzle_field_background"/>';
-            } else {
-              classes += ' vertical_clue_puzzle_field';
-              img = '<img src="img/vertical-clue.png" alt="" class="puzzle_field_background"/>';
-            }
-          }
-        }
-        
-        // Determine field value
-        var value = ((word_matrix[iy][ix]) ? word_matrix[iy][ix] : '');
-        
-        // Add data cell
-        puzzle_table += '<td><div class="' + classes + '">' + img + '<span>' + value + '</span></div></td>\n';
-      }
-      
-      puzzle_table += '</tr>\n'
-    }
-    
-    puzzle_table += '</table>';
-    
-    $('div#puzzle').html(puzzle_table); // Insert puzzle table
-    
-    // Generate clues table
-    var clue_table = '<table border="0" cellpadding="0" cellspacing="2px">\n';
-    
-    for (var i = 0; i < clue_array.length; ++i) {
-      var classes = 'puzzle_field filled_puzzle_field clue_puzzle_field';
-      var img = '';
-      if (! clue_array[i].direction) {
-        classes += ' horizontal_clue_puzzle_field';
-        img = '<img src="img/horizontal-clue.png" alt="" class="puzzle_field_background"/>';
-      } else {
-        classes += ' vertical_clue_puzzle_field';
-        img = '<img src="img/vertical-clue.png" alt="" class="puzzle_field_background"/>';
-      }
-      
-      clue_table += '<tr>\n';
-      clue_table += '<td><div class="' + classes + '">' + img + '<span>'
-                  + (i + 1) + '</span></div></td>\n';
-      clue_table += '<td>' + clue_array[i].clue + '</td>\n';
-      clue_table += '</tr>\n';
-    }
-
-    clue_table += '</table>';
-
-    $('div#clues').html(clue_table); // Insert clue table
-  }
-
-  function puzzle_words_to_arrays(puzzle_words) {
-    // Prepare word array
-    var words = new Array();
-    var x_max = max_x(puzzle_words);
-    var y_max = max_y(puzzle_words);
-
-    for (var i = 0; i <= y_max; ++i) {
-      words[i] = new Array();
-      for (var j = 0; j <= x_max; ++j) {
-        words[i][j] = null;
-      }
-    }
-    
-    var clues = new Array(); // Prepare clue array
-    
-    // Insert puzzle words into word array & initialize clue array
-    for (var i = 0; i < puzzle_words.length; ++i) {
-      // Extend clue array
-      var direction = ((puzzle_words[i].y1 == puzzle_words[i].y2) ? 0 : 1);
-      clues.push(new Clue(puzzle_words[i].clue, puzzle_words[i].x1, puzzle_words[i].y1, direction));
-      
-      // Step through current word
-      var j = 0;
-      while (j < puzzle_words[i].word.length) {
-        var idx_x = puzzle_words[i].x1 + (puzzle_words[i].x2 - puzzle_words[i].x1) / (puzzle_words[i].word.length - 1) * j;
-        var idx_y = puzzle_words[i].y1 + (puzzle_words[i].y2 - puzzle_words[i].y1) / (puzzle_words[i].word.length - 1) * j;
-        
-        words[idx_y][idx_x] = puzzle_words[i].word[j];
-
-        ++j;
-      }
-    }
-    
-    // Sort clue array
-    clues.sort(function(clue1, clue2) {
-      if (clue1.y < clue2.y) return -1;
-      if (clue1.y > clue2.y) return 1;
-      if (clue1.x < clue2.x) return -1;
-      if (clue1.x > clue2.x) return 1;
-      return 0;
-    });
-    
-    // Insert sorted clue numbers
-    for (var i = 0; i < clues.length; ++i){
-      words[clues[i].y][clues[i].x] = i + 1;
-    }
-    
-    return [words, clues];
-  }
-
-  function dialog_content(icon, message) {
-    content = '<table cellspacing=0" cellpadding="0" border="0"><tr>'
-    content += '<td><img src="img/' + icon + '" alt=""/></td>'
-    content += '<td><p>' + message + '</p></td>'
-    content += '</tr></table>'
-    return content;
-  }
-
-  function error_dialog(message) {
-    $('#error_dialog_message').html(message);
-    $.blockUI({
-      message: $('#error_dialog'),
-      css: {
-        width: '100%',
-        left: 0,
-        margin: 0,
-        padding: 0,
-        border: 0,
-        background: 'none'
+      if (word.length && clue.length) {
+        words.push(word);
+        clues.push(clue);
       }
     });
+    
+    // Check for empty input data
+    if (! words.length || ! clues.length) {
+      console.log('no input data');
+      return;
+    }
+    
+    // Generate crossword
+    crossword = $.crossword('generate', { words: words, clues: clues });
+    
+    if (crossword === null) {
+      console.log('generation failed');
+      return;
+    }
+    
+    // Render crossword
+    var $crossword = $.crossword('render', { crossword: crossword, clueRenderer: clueRenderer });
+    $('#puzzleWrapper').html($crossword);
+    
+    // (Re)activate buttons
+    $('button[name=next]').removeAttr('disabled');
+    $('button[name=rotate]').removeAttr('disabled');
+    $('button[name=printTeacher]').removeAttr('disabled');
+    $('button[name=printStudent]').removeAttr('disabled');
+  }
+  
+  
+  function nextClickHandler(event) {
+    console.log('not implemented yet');
+  }
+  
+  
+  function rotateClickHandler(event) {
+    rotated = !rotated;
+    
+    var $crossword = $.crossword('render', {
+      crossword: crossword,
+      clueRenderer: clueRenderer,
+      rotate: rotated
+    });
+    
+    $('#puzzleWrapper').html($crossword);
+  }
+  
+  
+  function print4TeacherClickHandler(event) {
+    console.log('not implemented yet');
+  }
+  
+  
+  function print4StudentClickHandler(event) {
+    console.log('not implemented yet');
+  }
+  
+  
+  function clueRenderer($canvas, number) {
+    var ctx = $canvas[0].getContext('2d');
+    var width = $canvas[0].width;
+    var height = $canvas[0].height;
+    
+    ctx.moveTo(0,0);
+    
+    if ($canvas.hasClass('horizontal')) {
+      ctx.lineTo(0, height);
+      ctx.lineTo(width, height / 2);
+    } else if ($canvas.hasClass('vertical')) {
+      ctx.lineTo(width,0);
+      ctx.lineTo(width / 2, height);
+    }
+    
+    ctx.lineTo(0,0);
+    
+    ctx.fillStyle = '#000';
+    ctx.fill();
+    
+    ctx.fillStyle = '#FFF';
+    ctx.font = '50px Roboto, sans-serif';
+    
+    if ($canvas.hasClass('horizontal')) {
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(number, 0, height / 2);
+    } else if ($canvas.hasClass('vertical')) {
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.fillText(number, width / 2, 0);
+    }
   }
   
 })(jQuery);
