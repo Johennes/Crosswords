@@ -546,10 +546,15 @@
       
       var $table = $('<table>').addClass('puzzle');
       
-      for (var y = crossword.minYIndex; y <= crossword.maxYIndex; ++y) {
+      var yMin = (rotate === false) ? crossword.minYIndex : crossword.minXIndex;
+      var yMax = (rotate === false) ? crossword.maxYIndex : crossword.maxXIndex;
+      var xMin = (rotate === false) ? crossword.minXIndex : crossword.minYIndex;
+      var xMax = (rotate === false) ? crossword.maxXIndex : crossword.maxYIndex;
+      
+      for (var y = yMin; y <= yMax; ++y) {
         var $tr = $('<tr>');
         
-        for (var x = crossword.minXIndex; x <= crossword.maxXIndex; ++x) {
+        for (var x = xMin; x <= xMax; ++x) {
           var $td = $('<td>');
           var value = (rotate === false) ? crossword.charAt(x,y) : crossword.charAt(y,x);
           
@@ -560,9 +565,9 @@
               var $canvas = $('<canvas>').attr('width', '100').attr('height', '100');
               
               if (value[0] === 'H') {
-                $canvas.addClass('horizontal');
+                $canvas.addClass((rotate === false) ? 'horizontal' : 'vertical');
               } else if (value[0] === 'V') {
-                $canvas.addClass('vertical');
+                $canvas.addClass((rotate === false) ? 'vertical' : 'horizontal');
               }
               
               clueRenderer($canvas, value.slice(1));
