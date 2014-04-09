@@ -3,7 +3,8 @@
   <head>
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto">
-    <link rel="stylesheet" type="text/css" href="css/main.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css" media="all">
+    <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
     <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>
     <![endif]-->
@@ -15,7 +16,7 @@
   <body>
     <header>
       <div class="greeter">Welcome to ...</div>
-      <table class="puzzle title noSelect">
+      <table class="crossword title noSelect">
         <tr>
           <td></td>
           <td></td>
@@ -54,7 +55,7 @@
       </table>
       <div class="greeter">Happy puzzling!</div>
     </header>
-    <section>
+    <section class="tabs">
       <ul class="tabTitle noSelect clear-fix">
         <li class="active">About</li>
         <li>Help</li>
@@ -71,10 +72,10 @@
         </div>
         <div class="tab">
           <p>
-            To start out, use the <button class="inline">Add Word</button>
+            To start out, use the <button class="inline inactive">Add Word</button>
             button to set up a list of words and associated clues. Once you're
-            done, press <button class="inline">Generate Crossword</button> in
-            order to start the crossword generator. Your puzzle will appear
+            done, press <button class="inline inactive">Generate Crossword</button>
+            in order to start the crossword generator. Your puzzle will appear
             within seconds provided that the generator succeeds. Note that the
             puzzle generation may fail if the specified words don't allow for a
             proper connection. For instance you cannot build a crossword out of
@@ -98,13 +99,14 @@
         </div>
       </div>
     </section>
-    <section>
+    <section class="inputButtons">
       <div class="buttonBox">
         <button name="add">Add Word</button>
+        <button name="generate">Generate Crossword</button>
         <button name="clear">Clear Everything</button>
       </div>
     </section>
-    <section>
+    <section class="inputData">
       <ul class="inputData">
         <li class="clear-fix">
           <div class="dragHandleWrapper">
@@ -144,23 +146,61 @@
             </div>
           </div>
         </li>
+        <li class="clear-fix">
+          <div class="dragHandleWrapper">
+            <div class="dragHandle">
+              <span class="counter"></span>
+            </div>
+          </div>
+          <div class="spacer"></div>
+          <div class="column">
+            <label for="word">Word</label>
+            <input name="word" type="text" value="Super" placeholder="Enter a word...">
+          </div>
+          <div class="column">
+            <label for="clue">Clue</label>
+            <textarea name="clue" rows="2" placeholder="Enter a clue...">Starts with 'S' and ends with 'UPER'</textarea>
+            <div class="removeButtonWrapper">
+              <button name="remove">Remove</button>
+            </div>
+          </div>
+        </li>
       </ul>
     </section>
-    <section>
+    <section class="crosswordButtons">
       <div class="buttonBox">
-        <button name="generate">Generate Crossword</button>
+        <button name="previous" disabled="disabled">Previous Alternative</button>
         <button name="next" disabled="disabled">Next Alternative</button>
         <button name="rotate" disabled="disabled">Rotate</button>
       </div>
     </section>
-    <section>
-      <div id="puzzleWrapper" class="noSelect"></div>
+    <section class="crossword">
+      <div id="outdatedMessage" class="infoMessage">
+        <p>
+          You've changed the set of input words. Hence, the crossword shown below
+          is probably outdated. To generate a new crossword, hit the
+          <button class="inline" name="generate">Generate Crossword</button> button.
+        </p>
+      </div>
+      <div id="errorMessage" class="infoMessage">
+        <p>
+          The set of words you specified does not seem to fit into a crossword.
+          Please adapt your input by adding or removing words and hit the
+          <button class="inline" name="generate">Generate Crossword</button>
+          button again.
+        </p>
+      </div>
+      <div id="crosswordWrapper" class="noSelect clear-fix"></div>
     </section>
-    <section>
+    <section class="printButtons">
       <div class="buttonBox">
         <button name="printTeacher" disabled="disabled">Print (Teacher Variant)</button>
         <button name="printStudent" disabled="disabled">Print (Student Variant)</button>
       </div>
     </section>
+    <section class="clues"></section>
+    <footer>
+      <span>copyright &copy; 2014 Johannes Marbach</span>
+    </footer>
   </body>
 </html>

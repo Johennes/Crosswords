@@ -23,6 +23,16 @@
     // Returns character at index
     charAt: function(index) {
       return this.value[index];
+    },
+    
+    // Clones itself
+    clone: function() {
+      var word = new Word(this.number, this.value, this.clue);
+      
+      word.start = this.start.clone();
+      word.orientation = this.orientation;
+      
+      return word;
     }
   };
   
@@ -160,6 +170,13 @@
     this.y = y;
   }
   
+  Coordinate.prototype = {
+    // Clones itself
+    clone: function() {
+      return new Coordinate(this.x, this.y);
+    }
+  };
+  
   
   // Crossword
   function Crossword() {
@@ -252,41 +269,114 @@
     charAt: function(x,y) {
       var value = this.indexMap[this.getKey(x,y)];
       return (value === undefined) ? '' : value;
+    },
+    
+    // Creates a DOM element representing the crossword
+    createDOMElement: function() {
+      if (! this.hasIndexMap()) {
+        this.buildIndexMap();
+      }
+      
+      var $table = $('<table>').addClass('crossword');
+      
+      for (var y = this.minYIndex; y <= this.maxYIndex; ++y) {
+        var $tr = $('<tr>');
+        
+        for (var x = this.minXIndex; x <= this.maxXIndex; ++x) {
+          var $td = $('<td>');
+          var value = this.charAt(x,y);
+          
+          if (value.length > 0) {
+            if (value.match(/[HV]\d*/) !== null) {
+              $td.addClass('clue');
+              
+              if (value[0] === 'H') {
+                $td.addClass('horizontal');
+              } else if (value[0] === 'V') {
+                $td.addClass('vertical');
+              }
+              
+              $td.append($('<div>').html(value.slice(1)));
+            } else {
+              $td.addClass('letter');
+              $td.append($('<div>').html(value));
+            }
+          }
+          
+          $tr.append($td);
+        }
+        
+        $table.append($tr);
+      }
+      
+      return $table;
+    },
+    
+    // Clones itself
+    clone: function() {
+      var crossword = new Crossword();
+      
+      crossword.words = [];
+      for (var i = 0; i < this.words.length; ++i) {
+        crossword.words.push(this.words[i].clone());
+      }
+      
+      crossword.length = this.length;
+      
+      if (this.indexMap !== null) {
+        crossword.indexMap = {};
+        
+        for (key in this.indexMap) {
+          if (this.indexMap.hasOwnProperty(key)) {
+            crossword.indexMap[key] = this.indexMap[key];
+          }
+        }
+        
+        crossword.minXIndex = this.minXIndex;
+        crossword.maxXIndex = this.maxXIndex;
+        crossword.minYIndex = this.minYIndex;
+        crossword.maxYIndex = this.maxYIndex;
+      }
+      
+      return crossword;
     }
   };
   
   
   // Crossword generator
-  function Generator(words) {
-    this.words = words;
-    this.pairMatcher = new PairMatcher(words);
+  function CrosswordGenerator(debug) {
+    this.state = null;
     this.crosswordMatcher = new CrosswordMatcher();
+    this.logger = (debug === true) ? new ConsoleLogger() : null;
   }
   
-  Generator.prototype = {
-    // Tries to generate a crossword
-    generate: function() {
+  CrosswordGenerator.prototype = {
+    // Initializes the generator
+    init: function(words) {
+      this.state = null; // Reset state
+      
       // Check input
-      if (this.words === undefined || this.words === null || this.words.length === 0) {
-        return null;
+      if (words === undefined || words === null || words.length === 0) {
+        return;
       }
       
-      // Sort words by number of matches (low to high)
-      var matcher = this.pairMatcher;
-      this.words.sort(function(word1, word2) {
+      // Initialize generator state
+      var state = new GeneratorState(words);
+      
+      // Sort remaining words by number of matches (low to high)
+      var matcher = state.pairMatcher;
+      state.remainingWords.sort(function(word1, word2) {
         var c1 = matcher.getMatchCount(word1);
         var c2 = matcher.getMatchCount(word2);
         return (c1 > c2) ? 1 : ((c1 < c2) ? -1 : 0);
       });
       
       // Check if any word cannot be matched
-      if (this.pairMatcher.getMatchCount(this.words[0]) === 0) {
-        return null;
+      if (matcher.getMatchCount(state.remainingWords[0]) === 0) {
+        return;
       }
       
-      // Initialize generator state
-      var state = new GeneratorState(this.words);
-      
+      // Place first word
       var firstWord = state.remainingWords.pop();
       firstWord.start.x = 0;
       firstWord.start.y = 0;
@@ -299,40 +389,57 @@
         matchIndex: 0
       });
       
+      this.state = state;
+    },
+    
+    // Tries to generate the next crossword alternative
+    generateNext: function() {
+      if (this.state === null) {
+        return null;
+      }
+      
       var counter = 0; // Counter to avoid infinite loop
       
+      if (this.canRollback()) { // Rollback last step for next attempt
+        this.rollbackForNextAttempt();
+      }
+      
       while (true) {
+        if (this.logger !== null) {
+          this.logger.logCrossword(this.state.crossword);
+        }
+        
         // Are we done?
-        if (state.remainingWords.length === 0) {
-          return state;
+        if (this.state.remainingWords.length === 0) {
+          return this.state.crossword.clone();
         }
         
         // Is this a dead end?
-        if (state.step.wordIndex < 0) {
-          if (state.stepStack.length > 0) { // Undo last step
-            state.step = state.stepStack.pop();
-            ++state.step.matchIndex;
-            
-            var lastWord = state.crossword.pop();
-            state.remainingWords.splice(state.step.wordIndex, 0, lastWord);
+        if (this.state.step.wordIndex < 0) {
+          if (this.canRollback()) {
+            this.rollbackForNextAttempt();
           } else { // Generation failed
             return null;
           }
         }
         
         // Try to match remaining words
-        while (state.step.wordIndex >= 0) {
-          var word = state.remainingWords[state.step.wordIndex];
+        while (this.state.step.wordIndex >= 0) {
+          var word = this.state.remainingWords[this.state.step.wordIndex];
           var matched = false;
+          
+          if (this.logger !== null) {
+            this.logger.logWord(word, 'Trying to match');
+          }
 
           // Try to match with placed words
-          while (state.step.matchWordIndex < state.crossword.length) {
-            var matchWord = state.crossword.get(state.step.matchWordIndex);
-            var matches = this.pairMatcher.getMatches(word, matchWord);
+          while (this.state.step.matchWordIndex < this.state.crossword.length) {
+            var matchWord = this.state.crossword.get(this.state.step.matchWordIndex);
+            var matches = this.state.pairMatcher.getMatches(word, matchWord);
             
             // Try matches
-            while (state.step.matchIndex < matches.length) {
-              var match = matches[state.step.matchIndex];
+            while (this.state.step.matchIndex < matches.length) {
+              var match = matches[this.state.step.matchIndex];
               
               // Calculate new word starting point and orientation
               if (matchWord.orientation === ORIENTATION.HORIZONTAL) {
@@ -346,13 +453,13 @@
               }
               
               // Check if match is possible
-              if (this.crosswordMatcher.wordMatches(word, state.crossword)) {
+              if (this.crosswordMatcher.wordMatches(word, this.state.crossword)) {
                 // Push current step onto the stack
-                state.stepStack.push(state.step.clone());
+                this.state.stepStack.push(this.state.step.clone());
                 
                 // Move word from remaining words to crossword
-                state.crossword.add(word);
-                state.remainingWords.splice(state.step.wordIndex,1);
+                this.state.crossword.add(word);
+                this.state.remainingWords.splice(this.state.step.wordIndex,1);
                 
                 // Exit loop over matches
                 matched = true;
@@ -360,7 +467,7 @@
               }
               
               // Proceed with next match
-              ++state.step.matchIndex;
+              ++this.state.step.matchIndex;
             }
             
             if (matched) { // Exit loop over placed words
@@ -368,18 +475,26 @@
             }
             
             // Proceed with next placed word
-            ++state.step.matchWordIndex;
-            state.step.matchIndex = 0;
+            ++this.state.step.matchWordIndex;
+            this.state.step.matchIndex = 0;
           }
           
           if (matched) { // Restart loop over all remaining words
-            state.step.wordIndex =  state.remainingWords.length - 1;
+            this.state.step.wordIndex =  this.state.remainingWords.length - 1;
+            
+            if (this.logger !== null) {
+              this.logger.log('Succeeded');
+            }
           } else { // Proceed with next word
-            --state.step.wordIndex;
+            --this.state.step.wordIndex;
+            
+            if (this.logger !== null) {
+              this.logger.log('Failed');
+            }
           }
           
-          state.step.matchWordIndex = 0;
-          state.step.matchIndex = 0;
+          this.state.step.matchWordIndex = 0;
+          this.state.step.matchIndex = 0;
         }
         
         ++counter;
@@ -387,6 +502,30 @@
       }
       
       return null;
+    },
+    
+    // Checks whether a rollback is possible in the current state
+    canRollback: function() {
+      return (this.state !== null && this.state.stepStack.length > 0)
+    },
+    
+    // Performs a rollback of the last generator step
+    rollbackForNextAttempt: function() {
+      if (! this.canRollback()) {
+        return;
+      }
+      
+      // Undo last step
+      var lastWord = this.state.crossword.pop();
+      this.state.step = this.state.stepStack.pop();
+      this.state.remainingWords.splice(this.state.step.wordIndex, 0, lastWord);
+      
+      // Increase match index for next attempt
+      ++this.state.step.matchIndex;
+      
+      if (this.logger !== null) {
+        this.logger.logWord(lastWord, 'Rolling back');
+      }
     }
   };
   
@@ -416,6 +555,7 @@
     this.remainingWords = words;
     this.step = null;
     this.stepStack = [];
+    this.pairMatcher = new PairMatcher(words);
   }
   
   
@@ -456,14 +596,14 @@
         diff = Math.abs(word1.start.y - word2.start.y);
         start1 = word1.start.x - 1; // Account for clue marker
         start2 = word2.start.x - 1; // Account for clue marker
-        end1 = word1.start.x + word1.length;
-        end2 = word2.start.x + word2.length;
+        end1 = word1.start.x + word1.length - 1;
+        end2 = word2.start.x + word2.length - 1;
       } else if (word1.orientation === ORIENTATION.VERTICAL && word2.orientation === ORIENTATION.VERTICAL) {
         diff = Math.abs(word1.start.x - word2.start.x);
         start1 = word1.start.y - 1; // Account for clue marker
         start2 = word2.start.y - 1; // Account for clue marker
-        end1 = word1.start.y + word1.length;
-        end2 = word2.start.y + word2.length;
+        end1 = word1.start.y + word1.length - 1;
+        end2 = word2.start.y + word2.length - 1;
       }
       
       switch (diff) {
@@ -505,7 +645,7 @@
       }
       
       var start2 = word2.start.y - 1; // Account for clue marker
-      var end2 = word2.start.y + word2.length;
+      var end2 = word2.start.y + word2.length - 1;
       
       if (word1.start.y === end2 + 1) { // Adjacent words
         return true;
@@ -529,63 +669,41 @@
   };
   
   
-  // Crossword renderer
-  function CrosswordRenderer() {
+  // Logger for outputting debug information to console
+  function ConsoleLogger() {
   }
   
-  CrosswordRenderer.prototype = {
-    // Renders a crossword to an HTML element
-    render: function(crossword, clueRenderer, rotate) {
-      if (crossword === null) {
-        return null;
-      }
+  ConsoleLogger.prototype = {
+    // Logs a message
+    log: function(message) {
+      console.log(message);
+    },
+    
+    // Logs a word
+    logWord: function(word, message) {
+      var msg = (typeof message !== undefined) ? message : '';
       
-      if (! crossword.hasIndexMap()) {
-        crossword.buildIndexMap();
-      }
+      console.log(msg, word.value);
+    },
+    
+    // Logs a crossword
+    logCrossword: function(crossword) {
+      console.log('Crossword {');
       
-      var $table = $('<table>').addClass('puzzle');
-      
-      var yMin = (rotate === false) ? crossword.minYIndex : crossword.minXIndex;
-      var yMax = (rotate === false) ? crossword.maxYIndex : crossword.maxXIndex;
-      var xMin = (rotate === false) ? crossword.minXIndex : crossword.minYIndex;
-      var xMax = (rotate === false) ? crossword.maxXIndex : crossword.maxYIndex;
-      
-      for (var y = yMin; y <= yMax; ++y) {
-        var $tr = $('<tr>');
+      for (var i = 0; i < crossword.length; ++i) {
+        var word = crossword.get(i);
+        var orientation = 'none';
         
-        for (var x = xMin; x <= xMax; ++x) {
-          var $td = $('<td>');
-          var value = (rotate === false) ? crossword.charAt(x,y) : crossword.charAt(y,x);
-          
-          if (value.length > 0) {
-            if (value.match(/[HV]\d*/) !== null) {
-              $td.addClass('clue');
-              
-              var $canvas = $('<canvas>').attr('width', '100').attr('height', '100');
-              
-              if (value[0] === 'H') {
-                $canvas.addClass((rotate === false) ? 'horizontal' : 'vertical');
-              } else if (value[0] === 'V') {
-                $canvas.addClass((rotate === false) ? 'vertical' : 'horizontal');
-              }
-              
-              clueRenderer($canvas, value.slice(1));
-              
-              $td.append($canvas);
-            } else {
-              $td.addClass('letter');
-              $td.html(value.toUpperCase());
-            }
-          }
-          
-          $tr.append($td);
+        if (word.orientation === ORIENTATION.HORIZONTAL) {
+          orientation = 'horizontal';
+        } else if (word.orientation === ORIENTATION.VERTICAL) {
+          orientation = 'vertical';
         }
         
-        $table.append($tr);
+        console.log('\t', word.value, '(' + word.start.x + ',' + word.start.y + ')', orientation);
       }
       
-      return $table;
+      console.log('}');
     }
   };
   
@@ -593,47 +711,40 @@
   // Main plugin function
   $.crossword = function(command, options) {
     switch (command) {
+      case 'init':
+        return init(options);
       case 'generate':
-        return generate(options);
-      case 'render':
-        return render(options);
-    }
-  }
-  
-  
-  // Generates a new crossword
-  function generate(options) {
-    var opts = $.extend({
-      words: [],
-      clues: []
-    }, options);
-    
-    if (opts.words.length === 0 || opts.clues.length === 0 ||
-        opts.words.length !== opts.clues.length) {
-      return null;
+        return generate();
     }
     
-    var words = [];
-    for (var i = 0; i < opts.words.length; ++i) {
-      words.push(new Word(i + 1, opts.words[i], opts.clues[i]));
+    // Initializes the generator with a new set of words
+    function init(options) {
+      var opts = $.extend({
+        words: [],
+        clues: [],
+        debug: false
+      }, options);
+      
+      if (this.generator === undefined) {
+        this.generator = new CrosswordGenerator();
+      }
+      
+      if (opts.words.length !== opts.clues.length) {
+        return;
+      }
+      
+      var words = [];
+      for (var i = 0; i < opts.words.length; ++i) {
+        words.push(new Word(i + 1, opts.words[i].toUpperCase(), opts.clues[i]));
+      }
+      
+      this.generator.init(words);
     }
     
-    var generator = new Generator(words);
-    var state = generator.generate();
-    
-    return (state !== null) ? state.crossword : null;
-  }
-  
-  
-  // Renders a crossword
-  function render(options) {
-    var opts = $.extend({
-      crossword: null,
-      clueRenderer: function($canvas, number) {},
-      rotate: false
-    }, options);
-    
-    return (new CrosswordRenderer()).render(opts.crossword, opts.clueRenderer, opts.rotate);
+    // Tries to generate the next alternative
+    function generate() {
+      return this.generator.generateNext();
+    }
   }
 
 })(jQuery);

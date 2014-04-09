@@ -1,0 +1,23 @@
+body {
+  background: none;
+}
+
+header, section.tabs, section.inputButtons, section.inputData,
+section.crosswordButtons, section.printButtons, section + section:before,
+footer {
+  display: none;
+}
+
+#crosswordWrapper {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+#crosswordWrapper table.crossword {
+  display: inline-block;
+  position: relative;
+}
+
+section.clues {
+  display: initial;
+}

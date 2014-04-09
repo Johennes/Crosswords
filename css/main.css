@@ -134,7 +134,7 @@ button {
   text-shadow: 0 0.1em 0.1em #000;
 }
 
-button:hover:not(:disabled) {
+button:hover:not(:disabled):not(.inactive) {
   color: #E62240;
 }
 
@@ -147,6 +147,10 @@ button:disabled {
 button.inline {
   padding-top: 0;
   padding-bottom: 0;
+}
+
+button.inactive {
+  cursor: default;
 }
 
 .buttonBox {
@@ -249,15 +253,19 @@ ul.inputData input, ul.inputData textarea {
   text-align: right;
 }
 
+.removeButtonWrapper button {
+  padding: 0.25em 0.5em;
+}
 
-/* Puzzle */
 
-table.puzzle {
+/* Crossword */
+
+table.crossword {
   border-collapse: separate;
   border-spacing: 0.1em;
 }
 
-table.puzzle tr td {
+table.crossword tr td {
   position: relative;
   
   margin: 0;
@@ -271,20 +279,82 @@ table.puzzle tr td {
   font-weight: bold;
 }
 
-table.puzzle tr td.letter {
+table.crossword tr td.letter {
   border: 0.1em solid #555;
   border-radius: 0.1em;
   background: #FFF;
 }
 
-table.puzzle tr td.clue canvas {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+table.crossword tr td.clue {
+  color: #FFF;
+  
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-#puzzleWrapper table.puzzle {
-  margin: 0 auto;
+table.crossword tr td.clue.horizontal {
+  background-image: url(../img/horizontal.svg);
+}
+
+table.crossword tr td.clue.vertical {
+  background-image: url(../img/vertical.svg);
+}
+
+#crosswordWrapper table.crossword {
+  position: absolute;
+}
+
+.infoMessage {
+  display: none;
+  margin: 0 0.5em 1em 0.5em;
+}
+
+.infoMessage p {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+
+/* Clues */
+
+section.clues {
+  display: none;
+}
+
+ul.clues {
+  margin: 0;
+  list-style: none;
+  counter-reset: clues;
+}
+
+ul.clues li + li {
+  margin-top: 0.125em;
+}
+
+ul.clues li:before {
+  content: counter(clues);
+  counter-increment: clues;
+  
+  margin-right: 0.5em;
+  
+  font-weight: bold;
+}
+
+
+/* Footer */
+
+footer {
+  width: 40em;
+  max-width: 90%;
+  
+  margin: 1em auto 0 auto;
+  padding: 0.5em 0 0 0;
+  
+  border-top: 0.2em solid #571942;
+  
+  text-align: center;
+}
+
+footer span {
+  font-size: 0.8em;
 }
