@@ -496,7 +496,7 @@
         
         if (state.queuedRotations > 0) {
           --state.queuedRotations;
-          rotate(state, $crossword, $lettersAndClues);
+          rotate(state, crossword4UI);
         } else {
           state.rotating = false;
         }
