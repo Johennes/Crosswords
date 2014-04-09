@@ -1,23 +1,27 @@
-body {
-  background: none;
-}
+@media print {
 
-header, section.tabs, section.inputButtons, section.inputData,
-section.crosswordButtons, section.printButtons, section + section:before,
-footer {
-  display: none;
-}
+  body {
+    background: none;
+  }
 
-#crosswordWrapper {
-  text-align: center;
-  margin-bottom: 1em;
-}
+  header, section.tabs, section.inputButtons, section.inputData,
+  section.crosswordButtons, section.printButtons, section + section:before,
+  footer {
+    display: none;
+  }
 
-#crosswordWrapper table.crossword {
-  display: inline-block;
-  position: relative;
-}
+  #crosswordWrapper {
+    text-align: center;
+    margin-bottom: 1em;
+  }
 
-section.clues {
-  display: initial;
+  #crosswordWrapper table.crossword {
+    display: inline-block;
+    position: relative;
+  }
+
+  section.clues {
+    display: initial;
+  }
+
 }
