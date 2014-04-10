@@ -132,8 +132,24 @@
     }
     
     var $li = $('ul.inputData li:last-child').clone();
-    $li.find('input, textarea').val('');
     $li.find('button[name=remove]').click(removeWordClickHandler);
+    
+    var $inputs = $li.find('input, textarea');
+    
+    $inputs.val('').html('');
+    
+    $inputs.each(function() { // Update id and for attribute of associated label
+      var id = $(this).attr('id');
+      
+      var numberMatch = id.match(/\d+/);
+      
+      var prefix = id.slice(0, numberMatch.index);
+      var number = parseInt(id.slice(numberMatch.index))
+      
+      $(this).attr('id', prefix + (number + 1));
+      $(this).siblings('label').attr('for', prefix + (number + 1));
+    });
+    
     $('ul.inputData').append($li);
   }
   
