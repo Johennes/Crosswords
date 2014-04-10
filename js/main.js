@@ -216,7 +216,7 @@
   
   // Generates and stores the next crossword
   function generateNextCrossword() {
-    var crossword = $.crossword('generate');
+    var crossword = $.crosswordGenerator('generate-next');
     
     if (crossword === null) {
       generatedAllAlternatives = true;
@@ -255,7 +255,7 @@
       return;
     }
     
-    $.crossword('init', { words: words, clues: clues });
+    $.crosswordGenerator('init', { words: words, clues: clues });
     
     if (generateNextCrossword()) { // Generate first alternative
       // Select and display first alternative

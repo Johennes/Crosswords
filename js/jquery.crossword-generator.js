@@ -713,13 +713,17 @@
   };
   
   
+  // Global variables holding the plugin state
+  var theGenerator = null;
+  
+  
   // Main plugin function
-  $.crossword = function(command, options) {
+  $.crosswordGenerator = function(command, options) {
     switch (command) {
       case 'init':
         return init(options);
-      case 'generate':
-        return generate();
+      case 'generate-next':
+        return generateNext();
     }
     
     // Initializes the generator with a new set of words
@@ -730,8 +734,8 @@
         debug: false
       }, options);
       
-      if ($.crossword.generator === null) {
-        $.crossword.generator = new CrosswordGenerator();
+      if (theGenerator === null) {
+        theGenerator = new CrosswordGenerator();
       }
       
       if (opts.words.length !== opts.clues.length) {
@@ -743,15 +747,13 @@
         words.push(new Word(i + 1, opts.words[i].toUpperCase(), opts.clues[i]));
       }
       
-      $.crossword.generator.init(words);
+      theGenerator.init(words);
     }
     
     // Tries to generate the next alternative
-    function generate() {
-      return $.crossword.generator.generateNext();
+    function generateNext() {
+      return theGenerator.generateNext();
     }
   };
-  
-  $.crossword.generator = null; // Awkward generator state variable
 
 })(jQuery);
