@@ -106,16 +106,18 @@
       
       for (var i = 0; i < words.length; ++i) {
         var matchCount = 0;
+        var j, matches;
+        
         this.matchMap.put(words[i], new WordMap());
         
-        for (var j = 0; j < i; ++j) {
-          var matches = this.matchMap.get(words[j]).get(words[i]);
+        for (j = 0; j < i; ++j) {
+          matches = this.matchMap.get(words[j]).get(words[i]);
           this.matchMap.get(words[i]).put(words[j], this.invertMatches(matches));
           matchCount += matches.length;
         }
         
-        for (var j = i + 1; j < words.length; ++j) {
-          var matches = this.findMatches(words[i], words[j]);
+        for (j = i + 1; j < words.length; ++j) {
+          matches = this.findMatches(words[i], words[j]);
           this.matchMap.get(words[i]).put(words[j], matches);
           matchCount += matches.length;
         }
@@ -245,12 +247,13 @@
       
       for (var i = 0; i < this.words.length; ++i) {
         var word = this.words[i];
+        var j;
         
         if (word.orientation === ORIENTATION.HORIZONTAL) {
           this.updateIndexRange(word.start.x - 1, word.start.x + word.length - 1, word.start.y, word.start.y);
           
           this.indexMap[this.getKey(word.start.x - 1, word.start.y)] = 'H' + word.number;
-          for (var j = 0; j < word.length; ++j) {
+          for (j = 0; j < word.length; ++j) {
             this.indexMap[this.getKey(word.start.x + j, word.start.y)] = word.charAt(j);
           }
         } else {
@@ -258,7 +261,7 @@
           
           // Update index map
           this.indexMap[this.getKey(word.start.x, word.start.y - 1)] = 'V' + word.number;
-          for (var j = 0; j < word.length; ++j) {
+          for (j = 0; j < word.length; ++j) {
             this.indexMap[this.getKey(word.start.x, word.start.y + j)] = word.charAt(j);
           }
         }
@@ -326,7 +329,7 @@
       if (this.indexMap !== null) {
         crossword.indexMap = {};
         
-        for (key in this.indexMap) {
+        for (var key in this.indexMap) {
           if (this.indexMap.hasOwnProperty(key)) {
             crossword.indexMap[key] = this.indexMap[key];
           }
@@ -506,7 +509,7 @@
     
     // Checks whether a rollback is possible in the current state
     canRollback: function() {
-      return (this.state !== null && this.state.stepStack.length > 0)
+      return (this.state !== null && this.state.stepStack.length > 0);
     },
     
     // Performs a rollback of the last generator step
@@ -745,6 +748,6 @@
     function generate() {
       return this.generator.generateNext();
     }
-  }
+  };
 
 })(jQuery);

@@ -144,7 +144,7 @@
       var numberMatch = id.match(/\d+/);
       
       var prefix = id.slice(0, numberMatch.index);
-      var number = parseInt(id.slice(numberMatch.index))
+      var number = parseInt(id.slice(numberMatch.index));
       
       $(this).attr('id', prefix + (number + 1));
       $(this).siblings('label').attr('for', prefix + (number + 1));
@@ -335,7 +335,7 @@
       var marginStop  = getLeftMarginForCentering($parent, $crossword);
       
       if (needsInitialMargin) { // Initially shift crossword
-        var marginStart = getShiftedLeftMargin($parent, $crossword, from)
+        var marginStart = getShiftedLeftMargin($parent, $crossword, from);
         $crossword.css({ marginLeft: marginStart + 'px' });
       }
       
@@ -571,16 +571,16 @@
   
   // Renders clues for a crossword
   function renderClues(crossword4UI) {
-    var clues = [];
+    var i, clues = [];
     
-    for (var i = 0; i < crossword4UI.crossword.length; ++i) {
+    for (i = 0; i < crossword4UI.crossword.length; ++i) {
       var word = crossword4UI.crossword.get(i);
       clues[word.number - 1] = word.clue;
     }
     
     var $ul = $('<ul>').addClass('clues');
     
-    for (var i = 0; i < clues.length; ++i) {
+    for (i = 0; i < clues.length; ++i) {
       var $li = $('<li>').html(clues[i]);
       $ul.append($li);
     }
