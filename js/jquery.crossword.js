@@ -1,3 +1,5 @@
+'use strict';
+
 (function($) {
   
   // Word orientation constants
@@ -728,8 +730,8 @@
         debug: false
       }, options);
       
-      if (this.generator === undefined) {
-        this.generator = new CrosswordGenerator();
+      if ($.crossword.generator === null) {
+        $.crossword.generator = new CrosswordGenerator();
       }
       
       if (opts.words.length !== opts.clues.length) {
@@ -741,13 +743,15 @@
         words.push(new Word(i + 1, opts.words[i].toUpperCase(), opts.clues[i]));
       }
       
-      this.generator.init(words);
+      $.crossword.generator.init(words);
     }
     
     // Tries to generate the next alternative
     function generate() {
-      return this.generator.generateNext();
+      return $.crossword.generator.generateNext();
     }
   };
+  
+  $.crossword.generator = null; // Awkward generator state variable
 
 })(jQuery);

@@ -1,3 +1,5 @@
+'use strict';
+
 (function($) {
   
   var DIRECTION = { // Direction constants for sliding crosswords in and out
