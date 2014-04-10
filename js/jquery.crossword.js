@@ -287,7 +287,7 @@
           var value = this.charAt(x,y);
           
           if (value.length > 0) {
-            if (value.match(/[HV]\d*/) !== null) {
+            if (value.match(/[HV]\d+/) !== null) {
               $td.addClass('clue');
               
               if (value[0] === 'H') {
