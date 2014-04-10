@@ -192,8 +192,7 @@
   
   // Clears all input data and any generated crosswords
   function clear() {
-    $('#outdatedMessage').slideUp();
-    $('#errorMessage').slideUp();
+    $('.infoMessage').hide();
     
     $('#crosswordWrapper').empty();
     
@@ -594,7 +593,7 @@
   
   // Handler for input data change events
   function wordChangedHandler(event) {
-    $('#outdatedMessage').slideDown();
+    $('#outdatedMessage').show();
   }
   
 })(jQuery);

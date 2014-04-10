@@ -259,6 +259,19 @@ ul.inputData input, ul.inputData textarea {
 }
 
 
+/* Info messages */
+
+.infoMessage {
+  display: none;
+  margin: 0 0.5em 1em 0.5em;
+}
+
+.infoMessage p {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+
 /* Crossword */
 
 table.crossword {
@@ -303,16 +316,6 @@ table.crossword tr td.clue.vertical {
 
 #crosswordWrapper table.crossword {
   position: absolute;
-}
-
-.infoMessage {
-  display: none;
-  margin: 0 0.5em 1em 0.5em;
-}
-
-.infoMessage p {
-  font-size: 0.9em;
-  text-align: center;
 }
 
 
