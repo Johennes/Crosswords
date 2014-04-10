@@ -1,6 +1,5 @@
-'use strict';
-
 (function($) {
+  'use strict';
   
   // Word orientation constants
   var ORIENTATION = {

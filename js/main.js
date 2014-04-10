@@ -1,6 +1,5 @@
-'use strict';
-
 (function($) {
+  'use strict';
   
   var DIRECTION = { // Direction constants for sliding crosswords in and out
     LEFT: -1,
@@ -114,15 +113,17 @@
   
   // Handler for tab clicks
   function tabClickHandler(event) {
-    if ($(this).hasClass('active')) {
+    var $this = $(event.currentTarget);
+    
+    if ($this.hasClass('active')) {
       return;
     }
     
     $('ul.tabTitle li.active').removeClass('active');
-    $(this).addClass('active');
+    $this.addClass('active');
     
     $('div.tabBody div').hide();
-    var index = $('ul.tabTitle li').index($(this));
+    var index = $('ul.tabTitle li').index($this);
     $($('div.tabBody div').get(index)).show();
   }
   
@@ -158,7 +159,7 @@
   
   // Handler for "Remove Word" button clicks
   function removeWordClickHandler(event) {
-    var $parent = $(this).parent();
+    var $parent = $(event.currentTarget).parent();
     
     while (! $parent.parent().hasClass('inputData')) {
       $parent = $parent.parent();
