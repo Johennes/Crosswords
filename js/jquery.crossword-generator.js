@@ -502,7 +502,9 @@
         }
         
         ++counter;
-        if (counter > 1000) return null; // Should not happen! :(
+        if (counter > 1000) { // Should not happen! :(
+          return null;
+        }
       }
       
       return null;
@@ -718,15 +720,8 @@
   
   // Main plugin function
   $.crosswordGenerator = function(command, options) {
-    switch (command) {
-      case 'init':
-        return init(options);
-      case 'generate-next':
-        return generateNext();
-    }
-    
-    // Initializes the generator with a new set of words
-    function init(options) {
+    // Function to initialize the generator with a new set of words
+    var init = function(options) {
       var opts = $.extend({
         words: [],
         clues: [],
@@ -747,11 +742,18 @@
       }
       
       theGenerator.init(words);
-    }
+    };
     
-    // Tries to generate the next alternative
-    function generateNext() {
+    // Function to generate the next alternative
+    var generateNext = function() {
       return theGenerator.generateNext();
+    };
+    
+    switch (command) {
+      case 'init':
+        return init(options);
+      case 'generate-next':
+        return generateNext();
     }
   };
 

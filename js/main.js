@@ -48,10 +48,11 @@
 
 
   $(document).ready(function() {
+    
     // Enable input data sorting
     $('ul.inputData').sortable({
       handle: '.dragHandle',
-      stop: function(event, ui) {
+      stop: function(/*event, ui*/) {
         $('button[name=generate]').click();
       }
     });
@@ -103,7 +104,7 @@
   
   
   // Handler for window resizing events
-  function windowResizeHandler(event) {
+  function windowResizeHandler(/*event*/) {
     var $parent = $('#crosswordWrapper');
     var $child  = $('#crosswordWrapper table.crossword');
     
@@ -129,7 +130,7 @@
   
   
   // Handler for "Add Word" button clicks
-  function addWordClickHandler(event) {
+  function addWordClickHandler(/*event*/) {
     if ($('ul.inputData li').length === 1) {
       $('button[name=remove]').removeAttr('disabled');
     }
@@ -174,7 +175,7 @@
   
   
   // Handler for "Clear" button clicks
-  function clearClickHandler(event) {
+  function clearClickHandler(/*event*/) {
     clear();
     
     // Clear input data
@@ -229,7 +230,7 @@
   
   
   // Handler for "Generate" clicks
-  function generateClickHandler(event) {
+  function generateClickHandler(/*event*/) {
     clear(); // Clear any previous crosswords
     
     // Disable printing options
@@ -277,7 +278,7 @@
   
   
   // Handler for "Previous" clicks
-  function previousClickHandler(event) {
+  function previousClickHandler(/*event*/) {
     if (currentCrosswordIndex <= 0) {
       return;
     }
@@ -296,7 +297,7 @@
   
   
   // Handler for "Next" clicks
-  function nextClickHandler(event) {
+  function nextClickHandler(/*event*/) {
     if (currentCrosswordIndex >= crosswords4UI.length - 1) {
       return;
     }
@@ -377,7 +378,7 @@
 
   
   // Handler for "Rotate" button clicks
-  function rotateClickHandler(event) {
+  function rotateClickHandler(/*event*/) {
     var state = crosswords4UI[currentCrosswordIndex].rotationState;
     
     if (state.rotating) {
@@ -454,9 +455,8 @@
     state.xScaleInnerStop = -state.xScaleInner;
     state.xScaleInnerStep = (state.xScaleInnerStop - state.xScaleInner) / NUM_STEPS;
     
-    performRotationStep(); // Start rotation
-    
-    function performRotationStep() {
+    // Function for performing a single step of the rotation
+    var performRotationStep = function() {
       state.degreeOuter = Math.min(state.degreeOuter, state.degreeOuterStop);
       state.degreeInner = (state.degreeInnerStop === 0) ? Math.min(state.degreeInner, state.degreeInnerStop)
                                                         : Math.max(state.degreeInner, state.degreeInnerStop);
@@ -483,9 +483,10 @@
         
         performInversionStep(); // Start inversion
       }
-    }
+    };
     
-    function performInversionStep() {
+    // Function for performing a single step of the inversion
+    var performInversionStep = function() {
       state.xScaleOuter = (state.xScaleOuterStop < 0) ? Math.max(state.xScaleOuter, state.xScaleOuterStop)
                                                       : Math.min(state.xScaleOuter, state.xScaleOuterStop);
       state.yScaleOuter = (state.yScaleOuterStop < 0) ? Math.max(state.yScaleOuter, state.yScaleOuterStop)
@@ -519,24 +520,27 @@
           state.rotating = false;
         }
       }
-    }
+    };
     
-    function applyTransformation($element, degree, xScale, yScale) {
+    // Function for applying a CSS transformation to the specified element
+    var applyTransformation = function($element, degree, xScale, yScale) {
       $element.css({ transform: 'rotate(' + degree + 'deg) ' +
                                 'scaleX(' + xScale + ')' +
                                 'scaleY(' + yScale + ')' });
-    }
+    };
+    
+    performRotationStep(); // Start rotation
   }
   
   
   // Handler for "Print Teacher Variant" button clicks
-  function print4TeacherClickHandler(event) {
+  function print4TeacherClickHandler(/*event*/) {
     print(false);
   }
   
   
   // Handler for "Print Student Variant" button clicks
-  function print4StudentClickHandler(event) {
+  function print4StudentClickHandler(/*event*/) {
     print(true);
   }
   
@@ -592,7 +596,7 @@
   
   
   // Handler for input data change events
-  function wordChangedHandler(event) {
+  function wordChangedHandler(/*event*/) {
     $('#outdatedMessage').show();
   }
   
