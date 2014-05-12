@@ -69,7 +69,7 @@ table.title {
 /* Sections */
 
 section {
-  width: 40em;
+  width: 35em;
   max-width: 90%;
   margin: 0 auto;
 }
@@ -81,6 +81,10 @@ section + section:before {
   margin: 1em 0;
   border-top: 0.1em solid #A16500;
   box-shadow: 0 0 0em 0.1em #F5B74E;
+}
+
+section h3 {
+  text-align: center;
 }
 
 
@@ -235,27 +239,29 @@ ul.inputData .spacer {
 ul.inputData .column {
   float: left;
   padding: 0.25em;
-  width: calc(50% - 1.25em);
+  height: 2.25em;
 }
 
-ul.inputData label {
-  display: block;
-  font-size: 0.8em;
-  width: 100%;
+ul.inputData .column.word {
+  width: calc(100% - 2.5em - 2.5em);
 }
 
-ul.inputData input, ul.inputData textarea {
+ul.inputData .column.removeButton {
+  width: 2.5em;
+}
+
+ul.inputData .column.removeButton button {
   width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+ul.inputData input {
+  width: 100%;
+  height: 100%;
+  padding: 0.25em;
   border: 0.1em solid #096569;
   border-radius: 0.2em;
-}
-
-.removeButtonWrapper {
-  text-align: right;
-}
-
-.removeButtonWrapper button {
-  padding: 0.25em 0.5em;
 }
 
 
