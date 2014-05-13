@@ -237,15 +237,22 @@
     $('button[name=printTeacher]').attr('disabled', 'disabled');
     $('button[name=printStudent]').attr('disabled', 'disabled');
     
-    // Read input data
+    // Read input words
     var words = [];
-    var clues = [];
-    $('ul.inputData li').each(function(index, element) {
+    $('ul.inputData.inputWords li').each(function(index, element) {
       var word = $.trim($(element).find('input[name=word]').val());
+      
+      if (word.length) {
+        words.push(word);
+      }
+    });
+    
+    // Read input clues
+    var clues = [];
+    $('ul.inputData.inputClues li').each(function(index, element) {
       var clue = $.trim($(element).find('textarea[name=clue]').val());
 
-      if (word.length && clue.length) {
-        words.push(word);
+      if (clue.length) {
         clues.push(clue);
       }
     });
