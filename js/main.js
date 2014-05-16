@@ -131,30 +131,37 @@
   
   // Handler for "Add Word" button clicks
   function addWordClickHandler(/*event*/) {
-    if ($('ul.inputData li').length === 1) {
+    if ($('ul.inputWords li').length === 1) {
       $('button[name=remove]').removeAttr('disabled');
     }
     
-    var $li = $('ul.inputData li:last-child').clone();
-    $li.find('button[name=remove]').click(removeWordClickHandler);
+    var $wordLi = $('ul.inputWords li:last-child').clone();
+    $wordLi.find('button[name=remove]').click(removeWordClickHandler);
     
-    var $inputs = $li.find('input, textarea');
+    var $input = $wordLi.find('input');
+    $input.val('');
     
-    $inputs.val('').html('');
+    var $clueLi = $('ul.inputClues li:last-child').clone();
     
-    $inputs.each(function() { // Update id and for attribute of associated label
-      var id = $(this).attr('id');
+    var $textarea = $clueLi.find('textarea');
+    $textarea.html('');
+    
+    var updateId = function($element) {
+      var id = $element.attr('id');
       
       var numberMatch = id.match(/\d+/);
       
       var prefix = id.slice(0, numberMatch.index);
       var number = parseInt(id.slice(numberMatch.index));
       
-      $(this).attr('id', prefix + (number + 1));
-      $(this).siblings('label').attr('for', prefix + (number + 1));
-    });
+      $element.attr('id', prefix + (number + 1));
+    };
     
-    $('ul.inputData').append($li);
+    updateId($input);
+    updateId($textarea);
+    
+    $('ul.inputWords').append($wordLi);
+    $('ul.inputClues').append($clueLi);
   }
   
   
