@@ -74,7 +74,7 @@
     $('button[name=printStudent]').click(print4StudentClickHandler);
     
     // Connect input data change handler
-    $('ul.inputData input[name=word]').change(wordChangedHandler);
+    $('ul.inputData input[name=word]').change(wordChangeHandler);
     
     $('button[name=generate]').click(); // Trigger crossword generation
   });
@@ -141,6 +141,7 @@
     
     var $input = $wordLi.find('input');
     $input.val('');
+    $input.change(wordChangeHandler);
     
     var $clueLi = $('ul.inputClues li:last-child').clone();
     $clueLi.find('div.clueSwitch button.segment').click(clueSwitchClickHandler);
@@ -635,8 +636,8 @@
   }
   
   
-  // Handler for input data change events
-  function wordChangedHandler(/*event*/) {
+  // Handler for word change events
+  function wordChangeHandler(/*event*/) {
     $('#outdatedMessage').show();
   }
   

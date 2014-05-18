@@ -139,7 +139,7 @@ button {
   text-shadow: 0 0.1em 0.1em #000;
 }
 
-button:hover:not(:disabled):not(.inactive) {
+button:hover:not(:disabled):not(.inactive), button.segment.active {
   color: #E62240;
 }
 
@@ -276,26 +276,36 @@ ul.inputData textarea {
   border-radius: 0.2em;
 }
 
+div.wordCopy {
+  font-size: 0.8em;
+  font-style: italic;
+}
+
 div.clueSwitch {
   display: inline-block;
 }
 
-div.clueSwitch .separator {
-  width: 0.1em;
-  background-color: #096569;
-}
-
-div.clueSwitch .segment, div.clueSwitch .separator {
-  display: inline-block;
-}
-
-div.clueSwitch .word, div.clueSwitch .clue {
+div.clueSwitch button {
   width: 4em;
   padding: 0;
+  float: left;
 }
 
-div.clueSwitch .segment.active {
-  color: red;
+div.clueSwitch label {
+  float: left;
+  font-size: 0.8em;
+}
+
+div.clueSwitch .segment.left {
+  border-right: 0.1em solid #571942;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+div.clueSwitch .segment.right {
+  border-left: 0.1em solid #571942;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 
