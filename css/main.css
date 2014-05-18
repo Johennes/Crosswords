@@ -259,10 +259,9 @@ ul.inputData .column.removeButton button {
 
 ul.inputData .column.clue {
   width: calc(100% - 2.5em);
-  height: 4em;
 }
 
-ul.inputData input {
+ul.inputData input[type=text] {
   width: 100%;
   height: 100%;
   padding: 0.25em;
@@ -272,10 +271,31 @@ ul.inputData input {
 
 ul.inputData textarea {
   width: 100%;
-  height: 100%;
   padding: 0.25em;
   border: 0.1em solid #096569;
   border-radius: 0.2em;
+}
+
+div.clueSwitch {
+  display: inline-block;
+}
+
+div.clueSwitch .separator {
+  width: 0.1em;
+  background-color: #096569;
+}
+
+div.clueSwitch .segment, div.clueSwitch .separator {
+  display: inline-block;
+}
+
+div.clueSwitch .word, div.clueSwitch .clue {
+  width: 4em;
+  padding: 0;
+}
+
+div.clueSwitch .segment.active {
+  color: red;
 }
 
 

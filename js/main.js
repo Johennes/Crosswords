@@ -69,6 +69,7 @@
     $('button[name=previous]').click(previousClickHandler);
     $('button[name=next]').click(nextClickHandler);
     $('button[name=rotate]').click(rotateClickHandler);
+    $('div.clueSwitch button.segment').click(clueSwitchClickHandler);
     $('button[name=printTeacher]').click(print4TeacherClickHandler);
     $('button[name=printStudent]').click(print4StudentClickHandler);
     
@@ -142,9 +143,17 @@
     $input.val('');
     
     var $clueLi = $('ul.inputClues li:last-child').clone();
+    $clueLi.find('div.clueSwitch button.segment').click(clueSwitchClickHandler);
     
     var $textarea = $clueLi.find('textarea');
     $textarea.html('');
+    
+    var $switch = $clueLi.find('div.clueSwitch');
+    
+    $switch.find('button.segment.active').removeClass('active');
+    $($switch.find('button.segment')[0]).addClass('active');
+    
+    var $label = $clueLi.find('label[for=' + $switch.attr('id') + ']');
     
     var updateId = function($element) {
       var id = $element.attr('id');
@@ -159,6 +168,9 @@
     
     updateId($input);
     updateId($textarea);
+    updateId($switch);
+    
+    $label.attr('for', $switch.attr('id'));
     
     $('ul.inputWords').append($wordLi);
     $('ul.inputClues').append($clueLi);
@@ -548,6 +560,16 @@
     };
     
     performRotationStep(); // Start rotation
+  }
+  
+  
+  // Handler for clue switch button clicks
+  function clueSwitchClickHandler(/*event*/) {
+    if ($(this).hasClass('active')) {
+      return;
+    }
+    
+    $(this).parent().find('button.segment').toggleClass('active');
   }
   
   
