@@ -169,15 +169,19 @@
   function removeWordClickHandler(event) {
     var $parent = $(event.currentTarget).parent();
     
-    while (! $parent.parent().hasClass('inputData')) {
+    while (! $parent.parent().hasClass('inputWords')) {
       $parent = $parent.parent();
     }
     
+    var index = $('ul.inputWords li').index($parent);
+    
     $parent.remove();
     
-    if ($('ul.inputData li').length === 1) {
+    if ($('ul.inputWords li').length === 1) {
       $('button[name=remove]').attr('disabled', 'disabled');
     }
+    
+    $('ul.inputClues li:nth-child(' + (index + 1) + ')').remove();
   }
   
   
