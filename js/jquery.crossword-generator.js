@@ -728,10 +728,6 @@
         debug: false
       }, options);
       
-      if (theGenerator === null) {
-        theGenerator = new CrosswordGenerator();
-      }
-      
       if (opts.words.length !== opts.clues.length) {
         return;
       }
@@ -741,6 +737,7 @@
         words.push(new Word(i + 1, opts.words[i].toUpperCase(), opts.clues[i]));
       }
       
+      theGenerator = new CrosswordGenerator(opts.debug);
       theGenerator.init(words);
     };
     

@@ -50,11 +50,10 @@
   $(document).ready(function() {
     
     // Enable input data sorting
-    $('ul.inputData').sortable({
+    $('ul.inputWords').sortable({
       handle: '.dragHandle',
-      stop: function(/*event, ui*/) {
-        $('button[name=generate]').click();
-      }
+      start: onInputWordsDragStart,
+      stop: onInputWordsDragStop
     });
     
     // Connect to window resizing handler
@@ -75,6 +74,8 @@
     
     // Connect input data change handler
     $('ul.inputData input[name=word]').change(wordChangeHandler);
+    
+    $('ul.inputData input[name=word]').change(); // Copy words to clue list
     
     $('button[name=generate]').click(); // Trigger crossword generation
   });
@@ -287,7 +288,7 @@
       return;
     }
     
-    $.crosswordGenerator('init', { words: words, clues: clues });
+    $.crosswordGenerator('init', { words: words, clues: clues, debug: true });
     
     if (generateNextCrossword()) { // Generate first alternative
       // Select and display first alternative
@@ -639,6 +640,48 @@
   // Handler for word change events
   function wordChangeHandler(/*event*/) {
     $('#outdatedMessage').show();
+    
+    var $parent = $(this);
+    
+    while ($parent && ! $parent.is('li')) {
+      $parent = $parent.parent();
+    }
+    
+    var index = $('ul.inputWords li').index($parent);
+    
+    $('ul.inputClues li:nth-child(' + (index + 1) + ') .wordCopy span').html($(this).val());
+  }
+  
+  
+  // Handler for drag start events of input words
+  function onInputWordsDragStart(event, ui) {
+    var $li = ui.item;
+    var initialIndex = $('ul.inputWords li').index($li);
+    $li.data('initialIndex', initialIndex);
+  }
+  
+  
+  // Handler for drag stop events of input words
+  function onInputWordsDragStop(event, ui) {
+    var $wordLi = ui.item;
+    
+    var finalIndex   = $('ul.inputWords li').index($wordLi);
+    var initialIndex = $wordLi.data('initialIndex');
+    
+    console.log(initialIndex, finalIndex);
+    
+    if (finalIndex === initialIndex) {
+      return;
+    }
+    
+    var $clueLi   = $('ul.inputClues li:nth-child(' + (initialIndex + 1) + ')');
+    var $targetLi = $('ul.inputClues li:nth-child(' + (finalIndex + 1) + ')');
+    
+    if (finalIndex > 0) {
+      $targetLi.after($clueLi);
+    } else {
+      $targetLi.before($clueLi);
+    }
   }
   
 })(jQuery);
