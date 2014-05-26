@@ -9,12 +9,11 @@
   };
   
   
-  // Word and its associated clue
-  function Word(number, value, clue) {
+  // An individual word
+  function Word(number, value) {
     this.number = number;
     this.value = value;
     this.length = value.length;
-    this.clue = clue;
     
     this.start = new Coordinate(null, null);
     this.orientation = ORIENTATION.NONE;
@@ -28,7 +27,7 @@
     
     // Clones itself
     clone: function() {
-      var word = new Word(this.number, this.value, this.clue);
+      var word = new Word(this.number, this.value);
       
       word.start = this.start.clone();
       word.orientation = this.orientation;
@@ -401,7 +400,7 @@
       if (this.state === null) {
         return null;
       }
-      
+
       var counter = 0; // Counter to avoid infinite loop
       
       if (this.canRollback()) { // Rollback last step for next attempt
@@ -724,17 +723,12 @@
     var init = function(options) {
       var opts = $.extend({
         words: [],
-        clues: [],
         debug: false
       }, options);
       
-      if (opts.words.length !== opts.clues.length) {
-        return;
-      }
-      
       var words = [];
       for (var i = 0; i < opts.words.length; ++i) {
-        words.push(new Word(i + 1, opts.words[i].toUpperCase(), opts.clues[i]));
+        words.push(new Word(i + 1, opts.words[i].toUpperCase()));
       }
       
       theGenerator = new CrosswordGenerator(opts.debug);

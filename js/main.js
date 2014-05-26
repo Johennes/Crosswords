@@ -272,23 +272,13 @@
       }
     });
     
-    // Read input clues
-    var clues = [];
-    $('ul.inputData.inputClues li').each(function(index, element) {
-      var clue = $.trim($(element).find('textarea[name=clue]').val());
-
-      if (clue.length) {
-        clues.push(clue);
-      }
-    });
-    
     // Check for empty input data
-    if (! words.length || ! clues.length) {
+    if (! words.length) {
       console.log('no input data');
       return;
     }
     
-    $.crosswordGenerator('init', { words: words, clues: clues, debug: true });
+    $.crosswordGenerator('init', { words: words, debug: false });
     
     if (generateNextCrossword()) { // Generate first alternative
       // Select and display first alternative
@@ -606,7 +596,8 @@
       $letters.hide();
     }
     
-    renderClues(crossword4UI);
+    renderClues(forStudent);
+    
     window.print();
     
     if (forStudent) { // Show crossword letters
@@ -618,20 +609,23 @@
   
   
   // Renders clues for a crossword
-  function renderClues(crossword4UI) {
-    var i, clues = [];
-    
-    for (i = 0; i < crossword4UI.crossword.length; ++i) {
-      var word = crossword4UI.crossword.get(i);
-      clues[word.number - 1] = word.clue;
-    }
-    
+  function renderClues(forStudent) {
     var $ul = $('<ul>').addClass('clues');
     
-    for (i = 0; i < clues.length; ++i) {
-      var $li = $('<li>').html(clues[i]);
+    $('ul.inputClues li').each(function(index, element) {
+      var clue = $(element).find('textarea[name=clue]').val();
+      var $li  = $('<li>').html(clue);
+      
+      if ($(element).find('button.segment.clue').hasClass('active')) {
+        if (forStudent) {
+          $li.html('______________________________');
+        } else {
+          $li.html(clue);
+        }
+      }
+      
       $ul.append($li);
-    }
+    });
     
     $('section.clues').html($ul);
   }
