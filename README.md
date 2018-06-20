@@ -21,6 +21,11 @@ generated from a given set of words
 * Crosswords can be printed in a teacher variant (includes words and
 hints) as well as a student variant (includes blanks for words or hints)
 
+### Running
+
+Simply load `src/index.html` locally in your browser. No internet connection
+required.
+
 ### Screenshots
 
 ![Main interface](screenshots/main-interface.png)
