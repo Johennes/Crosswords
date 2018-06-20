@@ -1,9 +1,9 @@
 Crosswords
 ==========
 
-A crossword generator for teachers
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Check out the demo: [click](http://htmlpreview.github.io/?https://github.com/Johennes/Crosswords/blob/master/index.html)
+A crossword generator for teachers
 
 ### About
 
@@ -14,14 +14,12 @@ puzzle will not be arranged to completely fill a rectangular region
 
 Some of the most important features include:
 
-* words and hints can be specified independently
-* you can cycle through all possible crossword variants that can be
+* Words and hints can be specified independently
+* You can cycle through all possible crossword variants that can be
 generated from a given set of words
-* crosswords can be rotated
-* crosswords can be printed in a teacher variant (includes words and
-hints)
-* crosswords can be printed in a student variant (includes blanks for
-words or hints)
+* Crosswords can be rotated
+* Crosswords can be printed in a teacher variant (includes words and
+hints) as well as a student variant (includes blanks for words or hints)
 
 ### Screenshots
 
