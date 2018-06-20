@@ -5,7 +5,7 @@ A crossword generator for teachers
 
 Check out the demo: [click](http://htmlpreview.github.io/?https://github.com/Johennes/Crosswords/blob/master/index.html)
 
-# About
+### About
 
 Crosswords is a browser-based application that lets you generate sparse
 crossword puzzles out of a given set of words. Sparse means that the
@@ -23,4 +23,8 @@ hints)
 * crosswords can be printed in a student variant (includes blanks for
 words or hints)
 
-![Crosswords](screenshots/2014-07-25.png)
+### Screenshots
+
+![Main interface](screenshots/main-interface.png)
+
+![Large crosswords](screenshots/large-crossword.png)
