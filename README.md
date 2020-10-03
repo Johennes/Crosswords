@@ -1,7 +1,7 @@
 Crosswords
 ==========
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+*Mirrors: [GitHub] ~ [GitLab]*
 
 A crossword generator for teachers
 
@@ -31,3 +31,6 @@ required.
 ![Main interface](screenshots/main-interface.png)
 
 ![Large crosswords](screenshots/large-crossword.png)
+
+[GitHub]: https://github.com/Johennes/Crosswords
+[GitLab]: https://gitlab.com/cherrypicker/Crosswords
