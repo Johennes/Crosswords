@@ -1,8 +1,6 @@
 Crosswords
 ==========
 
-*Mirrors: [GitHub] ~ [GitLab]*
-
 A crossword generator for teachers
 
 ### About
@@ -31,6 +29,3 @@ required.
 ![Main interface](screenshots/main-interface.png)
 
 ![Large crosswords](screenshots/large-crossword.png)
-
-[GitHub]: https://github.com/Johennes/Crosswords
-[GitLab]: https://gitlab.com/cherrypicker/Crosswords
