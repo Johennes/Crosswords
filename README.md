@@ -35,3 +35,7 @@ required.
 Crosswords is licensed under the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or (at your option) 
 any later version.
+
+The HTML5 shiv is licensed under the MIT/GPL2 license.
+
+jQuery and jQuery UI are licensed under the MIT license.
