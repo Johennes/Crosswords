@@ -1,7 +1,7 @@
 Crosswords
 ==========
 
-A crossword generator for teachers
+A crossword generator for teachers. See it in action [here](https://johennes.github.io/Crosswords/).
 
 ### About
 
